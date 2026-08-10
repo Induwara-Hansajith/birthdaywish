@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday & A/L Good Luck! 💖</title>
-    <!-- Importing cute fonts from Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Importing new cute fonts from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
     
     <style>
         /* CSS: The Styling and Animations */
@@ -16,7 +16,7 @@
             background: linear-gradient(-45deg, #ffdde1, #ee9ca7, #fad0c4, #ffd6e0);
             background-size: 400% 400%;
             animation: gradientBG 12s ease infinite;
-            font-family: 'Quicksand', sans-serif;
+            font-family: 'Nunito', sans-serif; /* Changed to Nunito */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -87,8 +87,8 @@
 
         /* Glowing Text Effect - Birthday */
         h1 {
-            font-family: 'Fredoka One', cursive;
-            font-size: clamp(1.8em, 6vw, 2.5em);
+            font-family: 'Bubblegum Sans', cursive; /* Changed to Bubblegum Sans */
+            font-size: clamp(2.2em, 7vw, 3.2em); /* Slightly larger for this specific font */
             background: linear-gradient(90deg, #c9184a, #ff4d6d, #ff8fa3);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -136,7 +136,7 @@
         .hint {
             color: #c9184a;
             font-size: 1em;
-            font-weight: 700;
+            font-weight: 800;
             margin-top: -10px;
             margin-bottom: 20px;
             animation: pulse 2s infinite;
@@ -175,7 +175,7 @@
             color: #4a0014;
             line-height: 1.6;
             font-size: 1.15em;
-            font-weight: 500;
+            font-weight: 700;
             margin-top: 15px;
             transition: color 0.5s;
         }
@@ -186,9 +186,9 @@
 
         .signature {
             color: #ff5e7e;
-            font-weight: bold;
-            font-size: 1.3em;
-            font-family: 'Fredoka One', cursive;
+            font-weight: normal;
+            font-size: 1.6em;
+            font-family: 'Bubblegum Sans', cursive; /* Changed to Bubblegum Sans */
             margin-top: 10px;
             display: none;
             animation: pop 0.5s ease-out;
@@ -202,11 +202,11 @@
             padding: 12px 28px;
             border-radius: 50px;
             font-size: 1em;
-            font-family: 'Quicksand', sans-serif;
+            font-family: 'Nunito', sans-serif; /* Changed to Nunito */
             cursor: pointer;
             margin-top: 20px;
             transition: 0.3s;
-            font-weight: 700;
+            font-weight: 800;
             box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
             display: none; 
             animation: pop 0.5s ease-out;
@@ -230,7 +230,7 @@
 
         .big-text {
             font-size: 1.5em;
-            font-weight: 700;
+            font-weight: 800;
             color: #c9184a;
             margin-top: 20px;
         }
@@ -268,7 +268,7 @@
             position: fixed;
             pointer-events: none;
             z-index: 5;
-            font-family: 'Fredoka One', cursive;
+            font-family: 'Bubblegum Sans', cursive; /* Changed to Bubblegum Sans */
             color: #00ffcc;
             text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
         }
@@ -421,7 +421,7 @@
         const sigEl = document.getElementById('signature');
         const thankBtn = document.getElementById('thankBtn');
 
-        // Typewriter (Updated with A/L sympathy!)
+        // Typewriter
         const theMessage = "To my absolute favorite person in the world, I hope your day is as bright and amazing as you are! I know A/Ls have been super stressful, but take today to just breathe and celebrate YOU. Thank you for being the best friend a girl could ask for. Here's to surviving these exams and making a million more cute memories! 🌸✨";
         let i = 0;
         let isTyping = false;
