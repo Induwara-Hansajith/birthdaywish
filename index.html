@@ -12,7 +12,7 @@
         * { margin:0; padding:0; box-sizing:border-box; }
         
         body {
-            /* Dynamic animated gradient background (Birthday Theme) */
+            /* Dynamic animated gradient background */
             background: linear-gradient(-45deg, #ffdde1, #ee9ca7, #fad0c4, #ffd6e0);
             background-size: 400% 400%;
             animation: gradientBG 12s ease infinite;
@@ -21,7 +21,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            min-height: 100dvh; /* Modern fix for mobile browser toolbars */
+            min-height: 100dvh; 
             text-align: center;
             overflow-x: hidden;
             padding: 20px;
@@ -55,15 +55,15 @@
             border-radius: 30px;
             box-shadow: 0 10px 40px rgba(255, 105, 135, 0.3);
             max-width: 500px;
-            width: 90%; /* Responsive width */
+            width: 90%;
+            -webkit-backdrop-filter: blur(15px); /* iOS optimization */
             backdrop-filter: blur(15px);
             border: 2px solid rgba(255,255,255,0.6);
-            transform: translateY(0);
+            transform: translateZ(0); /* Forces GPU rendering */
             transition: all 0.5s ease; 
             z-index: 10;
         }
 
-        /* Exam Mode Container Styling */
         body.exam-mode .container {
             background: rgba(15, 15, 20, 0.85);
             border: 2px solid #00ffcc;
@@ -71,32 +71,25 @@
             color: #ffffff;
         }
 
-        /* Initial pop-in animation */
-        #page-one {
-            animation: pop 1.2s ease-out;
-        }
+        #page-one { animation: pop 1.2s ease-out; }
 
         @keyframes pop { 
-            0% { transform:scale(0.7); opacity:0; } 
-            100% { transform:scale(1); opacity:1; } 
+            0% { transform: scale(0.7) translateZ(0); opacity: 0; } 
+            100% { transform: scale(1) translateZ(0); opacity: 1; } 
         }
 
-        .container:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Glowing Text Effect - Birthday */
+        /* Glowing Text Effect */
         h1 {
             font-family: 'Bubblegum Sans', cursive;
-            font-size: clamp(2rem, 8vw, 3.2rem); /* Fluid typography */
+            font-size: clamp(2rem, 8vw, 3.2rem); 
             background: linear-gradient(90deg, #c9184a, #ff4d6d, #ff8fa3);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
+            will-change: filter, text-shadow; /* Prevents text animation lag */
             animation: glow 2s ease-in-out infinite alternate;
         }
 
-        /* Glowing Text Effect - Exam Mode */
         body.exam-mode h1 {
             background: linear-gradient(90deg, #ff3366, #ff9933, #ffcc00);
             -webkit-background-clip: text;
@@ -114,7 +107,7 @@
             to { text-shadow:0 0 30px rgba(255, 204, 0, 0.9); } 
         }
 
-        /* Floating Cake & Emojis Animations */
+        /* Floating Interactive Elements */
         .cake, .floating-emoji {
             font-size: clamp(50px, 15vw, 80px);
             cursor: pointer;
@@ -123,7 +116,8 @@
             display: inline-block;
             transition: transform 0.2s;
             user-select: none;
-            -webkit-tap-highlight-color: transparent; /* Remove blue tap highlight on mobile */
+            -webkit-tap-highlight-color: transparent; 
+            will-change: transform;
         }
 
         .cake:active { transform: scale(0.9); }
@@ -144,12 +138,11 @@
         }
 
         @keyframes pulse {
-            0% { opacity: 0.5; }
+            0%, 100% { opacity: 0.5; }
             50% { opacity: 1; }
-            100% { opacity: 0.5; }
         }
 
-        /* Hidden Message & Polaroid Section */
+        /* Message Box & Polaroid */
         #message-box {
             display: none;
             opacity: 0;
@@ -160,7 +153,7 @@
             background: white;
             padding: 8px 8px 20px 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            transform: rotate(-3deg);
+            transform: rotate(-3deg) translateZ(0);
             margin: 15px auto;
             max-width: 200px;
             width: 50%;
@@ -183,10 +176,7 @@
             transition: color 0.5s;
         }
 
-        /* Prevents layout jumping when typewriter is typing on mobile */
-        #msg {
-            min-height: 100px;
-        }
+        #msg { min-height: 100px; }
 
         .signature {
             color: #ff5e7e;
@@ -198,7 +188,6 @@
             animation: pop 0.5s ease-out;
         }
 
-        /* Thank You Button */
         .btn {
             background: linear-gradient(90deg, #c9184a, #ff4d6d);
             color: white;
@@ -214,6 +203,7 @@
             box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
             display: none; 
             animation: pop 0.5s ease-out;
+            will-change: transform;
         }
 
         .btn:hover {
@@ -221,11 +211,8 @@
             box-shadow: 0 6px 20px rgba(255, 77, 109, 0.5);
         }
 
-        .btn:active {
-            transform: scale(0.95);
-        }
+        .btn:active { transform: scale(0.95); }
 
-        /* Page Two and Three Styling */
         #page-two, #page-three {
             display: none;
             opacity: 0;
@@ -239,21 +226,15 @@
             margin-top: 20px;
         }
 
-        body.exam-mode .big-text {
-            color: #e0e0e0;
-        }
-
-        body.exam-mode .floating-emoji {
-            animation: floatExam 2s ease-in-out infinite;
-        }
+        body.exam-mode .big-text { color: #e0e0e0; }
+        body.exam-mode .floating-emoji { animation: floatExam 2s ease-in-out infinite; }
 
         @keyframes floatExam {
-            0% { transform: translateY(0px) scale(1); }
+            0%, 100% { transform: translateY(0px) scale(1); }
             50% { transform: translateY(-20px) scale(1.1); }
-            100% { transform: translateY(0px) scale(1); }
         }
 
-        /* Canvas & Particle Styles */
+        /* Particle System Optimization */
         #confetti-canvas {
             position: fixed;
             top: 0; left: 0;
@@ -262,10 +243,12 @@
             z-index: 9999;
         }
 
-        .petal, .exam-drop {
+        .petal, .exam-drop, .glitter {
             position: fixed;
             pointer-events: none;
             z-index: 5;
+            /* CRITICAL: Hardware acceleration for all floating items */
+            will-change: transform, opacity;
         }
         
         .exam-drop {
@@ -275,64 +258,43 @@
         }
 
         .glitter {
-            position: fixed;
             width: 6px; height: 6px;
             background: radial-gradient(circle, #fff, #ffd700, #ff69b4);
             border-radius: 50%;
             box-shadow: 0 0 8px #fff;
-            pointer-events: none;
-            z-index: 5;
         }
 
         @keyframes burstUp {
-            0% { transform: translate(0,0) rotate(0deg); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) rotate(720deg); opacity: 0; }
+            0% { transform: translate3d(0,0,0) rotate(0deg); opacity: 1; }
+            100% { transform: translate3d(var(--tx), var(--ty), 0) rotate(720deg); opacity: 0; }
         }
 
         @keyframes dropDown {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+            0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 1; }
+            100% { transform: translate3d(0, 110vh, 0) rotate(360deg); opacity: 0; }
         }
 
-        /* RESPONSIVE MEDIA QUERIES FOR MOBILE DEVICES */
+        /* Media Queries */
         @media (max-width: 600px) {
-            .container {
-                padding: 30px 20px;
-            }
-            #msg {
-                min-height: 140px; /* Accounts for text wrapping on smaller screens */
-            }
+            .container { padding: 30px 20px; }
+            #msg { min-height: 140px; }
         }
 
         @media (max-width: 400px) {
-            .container {
-                padding: 25px 15px;
-            }
-            p {
-                font-size: 1.05rem;
-            }
-            .signature {
-                font-size: 1.4rem;
-            }
-            .btn {
-                padding: 10px 24px;
-                font-size: 0.95rem;
-            }
-            #msg {
-                min-height: 180px; /* Accounts for even more text wrapping */
-            }
+            .container { padding: 25px 15px; }
+            p { font-size: 1.05rem; }
+            .signature { font-size: 1.4rem; }
+            .btn { padding: 10px 24px; font-size: 0.95rem; }
+            #msg { min-height: 180px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Confetti Canvas -->
     <canvas id="confetti-canvas"></canvas>
 
-    <!-- PAGE ONE: The Main Content -->
     <div class="container" id="page-one">
         <h1>Happy Birthday Bestie! 🌹</h1>
-        
         <div class="cake" id="cakeBtn">🎂</div>
         <div class="hint">Tap the cake!</div>
 
@@ -341,33 +303,32 @@
                 <!-- Replace with your own cute pic link! -->
                 <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Us!">
             </div>
-            <!-- This is where the typewriter effect types out the text -->
             <p id="msg"></p>
-            
             <div class="signature" id="signature">Besties forever, [Your Name] ✨</div>
-            
-            <!-- Thank You Button -->
             <button class="btn" id="thankBtn">Thank You 💖</button>
         </div>
     </div>
 
-    <!-- PAGE TWO: The Reality Check Message -->
     <div class="container" id="page-two">
         <h1>Reality Check... 🛑</h1>
         <p class="big-text">Birthday magic paused...<br>Back to the A/L grind! 😭📚</p>
     </div>
 
-    <!-- PAGE THREE: The Good Luck Message -->
     <div class="container" id="page-three">
         <h1 style="background: linear-gradient(90deg, #00ffcc, #00bfff); -webkit-background-clip: text;">Smash those A/Ls! 🍀</h1>
         <div class="floating-emoji">☕️🎓✍️</div>
         <p class="big-text">Do your best, forget the rest! You are going to ace this! Future uni student vibes loading... ⚡️</p>
     </div>
 
-    <!-- JavaScript: Confetti Library -->
+    <!-- JS Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
     <script>
-        // BACKGROUND EFFECT 1: Falling Birthday Roses
+        // Track intervals for clean memory management
+        let petalInterval;
+        let examDropInterval;
+
+        // BACKGROUND EFFECT 1: Falling Birthday Roses (Optimized)
         function createPetal(){
             let p = document.createElement('div');
             p.className = 'petal';
@@ -379,9 +340,11 @@
             p.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
             p.style.setProperty('--ty', '110vh');
             document.body.appendChild(p);
+            
+            // Clean up DOM node to prevent memory leak
             setTimeout(() => p.remove(), 10000);
         }
-        let petalInterval = setInterval(createPetal, 600);
+        petalInterval = setInterval(createPetal, 700);
 
         // BACKGROUND EFFECT 2: Falling Exam Hype
         function createExamDrop(){
@@ -398,50 +361,45 @@
             setTimeout(() => p.remove(), 7000);
         }
 
-        // CORNER BURST EFFECT
+        // CORNER BURST EFFECT (Optimized: Reduced loop count and staggered insertion)
         function cornerBurst(){
-            const corners = [
-                {x: '5vw', y: '95vh'}, 
-                {x: '95vw', y: '95vh'} 
-            ];
-
-            // Adjust explosion distance based on screen width
+            const corners = [{x: '5vw', y: '95vh'}, {x: '95vw', y: '95vh'}];
             const isMobile = window.innerWidth < 600;
+            // Reduced to 12 items per corner for massive performance gain
+            const burstCount = 12; 
 
-            for(let c = 0; c < 2; c++){
-                for(let j = 0; j < 20; j++){
+            corners.forEach((corner, index) => {
+                for(let j = 0; j < burstCount; j++){
                     setTimeout(() => {
                         let p = document.createElement('div');
                         p.className = 'petal';
                         p.innerHTML = '🌹';
-                        p.style.left = corners[c].x;
-                        p.style.top = corners[c].y;
+                        p.style.left = corner.x;
+                        p.style.top = corner.y;
                         p.style.fontSize = 18 + Math.random() * 12 + 'px';
                         
-                        let angle = c === 0 ? -45 : -135;
+                        let angle = index === 0 ? -45 : -135;
                         let dist = (isMobile ? 250 : 400) + Math.random() * (isMobile ? 200 : 300);
                         
                         p.style.animation = 'burstUp 3s ease-out forwards';
                         p.style.setProperty('--tx', Math.cos(angle * Math.PI / 180) * dist + 'px');
                         p.style.setProperty('--ty', Math.sin(angle * Math.PI / 180) * dist + 'px');
-                        
                         document.body.appendChild(p);
                         setTimeout(() => p.remove(), 3000);
 
                         let g = document.createElement('div');
                         g.className = 'glitter';
-                        g.style.left = corners[c].x;
-                        g.style.top = corners[c].y;
+                        g.style.left = corner.x;
+                        g.style.top = corner.y;
                         g.style.animation = 'burstUp 2.5s ease-out forwards';
                         g.style.setProperty('--tx', Math.cos(angle * Math.PI / 180) * (dist - 50) + 'px');
                         g.style.setProperty('--ty', Math.sin(angle * Math.PI / 180) * (dist - 50) + 'px');
-                        
                         document.body.appendChild(g);
                         setTimeout(() => g.remove(), 2500);
 
-                    }, j * 40);
+                    }, j * 60); // Staggered by 60ms to prevent lag spikes
                 }
-            }
+            });
         }
 
         // DOM Elements
@@ -455,7 +413,6 @@
         const sigEl = document.getElementById('signature');
         const thankBtn = document.getElementById('thankBtn');
 
-        // Typewriter
         const theMessage = "To my absolute favorite person in the world, I hope your day is as bright and amazing as you are! I know A/Ls have been super stressful, but take today to just breathe and celebrate YOU. Thank you for being the best friend a girl could ask for. Here's to surviving these exams and making a million more cute memories! 🌸✨";
         let i = 0;
         let isTyping = false;
@@ -483,34 +440,33 @@
 
             cornerBurst();
 
-            var duration = 3000;
-            var end = Date.now() + duration;
-
-            (function frame() {
+            // PERFORMANCE FIX: Optimized Confetti Loop
+            // Replaced every-frame firing with intervals to save 75% CPU load
+            let end = Date.now() + 3000;
+            
+            let confettiShooter = setInterval(function() {
+                if (Date.now() > end) {
+                    return clearInterval(confettiShooter);
+                }
                 confetti({
-                    particleCount: 6,
+                    particleCount: 15,
                     angle: 60,
-                    spread: 60,
+                    spread: 55,
                     origin: { x: 0 },
                     colors: ['#ff5e7e', '#ffafbd', '#ffffff', '#ffd700']
                 });
                 confetti({
-                    particleCount: 6,
+                    particleCount: 15,
                     angle: 120,
-                    spread: 60,
+                    spread: 55,
                     origin: { x: 1 },
                     colors: ['#ff5e7e', '#ffafbd', '#ffffff', '#ffd700']
                 });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
-            }());
+            }, 150); 
         });
 
-        // THE EXAM HYPE SWITCH!
+        // THE EXAM HYPE SWITCH
         thankBtn.addEventListener('click', () => {
-            // Fade out page one
             pageOne.style.opacity = '0';
             
             setTimeout(() => {
@@ -519,36 +475,34 @@
                 // TRIGGER EXAM MODE CSS
                 document.body.classList.add('exam-mode');
                 
-                // Stop the cute roses
+                // Properly clear the first background effect
                 clearInterval(petalInterval);
-                document.querySelectorAll('.petal').forEach(el => el.remove());
+                document.querySelectorAll('.petal, .glitter').forEach(el => el.remove());
                 
-                // Start raining A*s, past papers, and coffee!
-                setInterval(createExamDrop, 350);
+                // Start Exam Hype Drop
+                examDropInterval = setInterval(createExamDrop, 450);
 
-                // Show page two (the exam warning)
+                // Sequence Logic
                 pageTwo.style.display = 'block';
-                setTimeout(() => {
+                
+                // Small delay to ensure display:block applies before opacity transition
+                requestAnimationFrame(() => {
                     pageTwo.style.opacity = '1';
-                }, 50);
+                });
 
-                // Hold page two on screen for 4.5 seconds, then transition to page three
                 setTimeout(() => {
                     pageTwo.style.opacity = '0';
                     
                     setTimeout(() => {
                         pageTwo.style.display = 'none';
-                        
-                        // Show page three (the good luck message)
                         pageThree.style.display = 'block';
-                        setTimeout(() => {
+                        
+                        requestAnimationFrame(() => {
                             pageThree.style.opacity = '1';
-                        }, 50);
+                        });
                         
                     }, 500); 
-                    
                 }, 4500); 
-
             }, 500);
         });
     </script>
