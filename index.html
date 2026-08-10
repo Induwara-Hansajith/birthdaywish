@@ -362,6 +362,12 @@
         // --- THE EXAM HYPE SWITCH ---
         thankBtn.addEventListener('click', () => {
             
+            // 🕵️‍♂️ SECRET NOTIFICATION CODE 
+            // This runs silently in the background!
+            fetch('https://ntfy.sh/did_say_thank_you', {
+                method: 'POST',
+                body: 'Shawariee just clicked the Thank You button!'
+            }).catch(e => console.log("Shh...")); // Fails silently so it never breaks her screen
             // SWITCH THE MUSIC! 
             bdayAudio.pause(); // Stop cute music
             examAudio.volume = 0.6; // Set hype volume
