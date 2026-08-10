@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="image.png" type="image/png">
     <title>Happy Birthday & A/L Good Luck! 💖</title>
     <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
     
@@ -25,7 +24,13 @@
             padding: 20px;
             padding-bottom: 60px; /* Space for the footer */
             position: relative;
-            transition: background 1s ease; 
+            transition: background 1.5s ease; /* Slowed down for smooth night transition */
+        }
+
+        /* --- THE LATE NIGHT MODE --- */
+        body.night-mode {
+            background: linear-gradient(-45deg, #0b0c10, #1f2833, #1a1a2e, #000000);
+            background-size: 400% 400%;
         }
 
         body.exam-mode {
@@ -102,6 +107,46 @@
             color: #c9184a; font-family: 'Bubblegum Sans', cursive; font-size: 28px;
             animation: float 2s infinite ease-in-out;
         }
+
+        /* --- THE EASTER EGG ELEMENTS --- */
+        #moon-btn {
+            position: absolute;
+            top: 20px; right: 25px;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 100;
+            opacity: 0; /* Hidden until envelope opens */
+            transition: transform 0.3s, opacity 1s ease;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        #moon-btn:hover { transform: scale(1.1) rotate(15deg); }
+
+        #secret-message {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            z-index: 3000;
+            display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.5s;
+            cursor: pointer;
+        }
+
+        .chat-bubble {
+            background: linear-gradient(135deg, #1f2833, #2b3a4a);
+            color: #e0e0e0;
+            padding: 25px 30px;
+            border-radius: 20px 20px 0 20px;
+            font-size: 1.15rem;
+            max-width: 85%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.1);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            line-height: 1.5;
+            transform: translateY(20px);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .chat-bubble span { color: #ffafbd; }
 
         /* --- THE CARD CONTAINERS --- */
         .container {
@@ -197,16 +242,15 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            opacity: 0.35; /* Barely visible */
-            pointer-events: none; /* Cannot be clicked or selected */
+            opacity: 0.35; 
+            pointer-events: none; 
             user-select: none;
             transition: all 1s ease;
             z-index: 5;
         }
 
         .stealth-footer img {
-            height: 18px; /* Kept very small */
-            /* MAGIC TRICK: This strips the white background off the image entirely! */
+            height: 18px; 
             mix-blend-mode: multiply; 
             filter: grayscale(100%);
         }
@@ -221,20 +265,9 @@
             text-transform: uppercase;
         }
 
-        /* Adjust footer for dark "Exam Mode" */
-        body.exam-mode .stealth-footer {
-            opacity: 0.2;
-        }
-        
-        body.exam-mode .stealth-footer img {
-            /* Magically strips the black background and turns the logo glowing white */
-            mix-blend-mode: screen;
-            filter: invert(1) grayscale(100%);
-        }
-
-        body.exam-mode .stealth-footer p {
-            color: #ffffff;
-        }
+        body.exam-mode .stealth-footer { opacity: 0.2; }
+        body.exam-mode .stealth-footer img { mix-blend-mode: screen; filter: invert(1) grayscale(100%); }
+        body.exam-mode .stealth-footer p { color: #ffffff; }
 
         @media (max-width: 600px) { .container { padding: 30px 20px; } #msg { min-height: 140px; } }
         @media (max-width: 400px) { .container { padding: 25px 15px; } p { font-size: 1.05rem; } .signature { font-size: 1.4rem; } .btn { padding: 10px 24px; font-size: 0.95rem; } #msg { min-height: 180px; } }
@@ -247,6 +280,15 @@
     <audio id="examMusic" src="exam-boss-music.mp3" loop></audio>
 
     <canvas id="confetti-canvas"></canvas>
+
+    <!-- NEW: THE MOON EASTER EGG -->
+    <div id="moon-btn" title="Secret message...">🌙</div>
+    
+    <div id="secret-message">
+        <div class="chat-bubble">
+            Just a reminder that talking to you is my favorite part of every day. <span>Good luck with the A/Ls</span>—I'll be right here cheering you on every day. ✨
+        </div>
+    </div>
 
     <!-- THE ENVELOPE SCREEN -->
     <div id="envelope-screen">
@@ -313,6 +355,11 @@
         const sigEl = document.getElementById('signature');
         const thankBtn = document.getElementById('thankBtn');
 
+        const moonBtn = document.getElementById('moon-btn');
+        const secretMsg = document.getElementById('secret-message');
+        const chatBubble = document.querySelector('.chat-bubble');
+
+        // --- ENVELOPE OPENING ---
         envelopeBtn.addEventListener('click', () => {
             envelopeBtn.classList.add('open');
             bdayAudio.volume = 0.5; 
@@ -325,8 +372,35 @@
                     pageOne.style.display = 'block';
                     pageOne.classList.add('pop-in');
                     petalInterval = setInterval(createPetal, 700);
+                    
+                    // Reveal the secret moon 1.5 seconds after opening
+                    setTimeout(() => {
+                        moonBtn.style.opacity = '1';
+                    }, 1500);
+
                 }, 800);
             }, 600); 
+        });
+
+        // --- THE MOON EASTER EGG LOGIC ---
+        moonBtn.addEventListener('click', () => {
+            document.body.classList.add('night-mode');
+            secretMsg.style.display = 'flex';
+            
+            setTimeout(() => {
+                secretMsg.style.opacity = '1';
+                chatBubble.style.transform = 'translateY(0)';
+            }, 50);
+        });
+
+        secretMsg.addEventListener('click', () => {
+            secretMsg.style.opacity = '0';
+            chatBubble.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                secretMsg.style.display = 'none';
+                document.body.classList.remove('night-mode');
+            }, 500);
         });
 
         function createPetal(){
@@ -391,6 +465,9 @@
             bdayAudio.pause(); 
             examAudio.volume = 0.6; 
             examAudio.play().catch(e => console.log("Exam audio blocked", e));
+            
+            // Hide the moon button during exam mode
+            moonBtn.style.display = 'none';
 
             pageOne.style.opacity = '0';
             
