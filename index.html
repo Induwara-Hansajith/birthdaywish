@@ -23,6 +23,7 @@
             text-align: center;
             overflow-x: hidden;
             padding: 20px;
+            padding-bottom: 60px; /* Space for the footer */
             position: relative;
             transition: background 1s ease; 
         }
@@ -53,7 +54,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Envelope Flap */
         .envelope-wrapper::before { 
             content: ''; position: absolute; top: 0; left: 0;
             border-left: 140px solid transparent; border-right: 140px solid transparent;
@@ -62,7 +62,6 @@
             z-index: 3; border-radius: 8px 8px 0 0;
         }
 
-        /* Envelope Bottom Fold */
         .envelope-wrapper::after { 
             content: ''; position: absolute; bottom: 0; left: 0;
             border-left: 140px solid transparent; border-right: 140px solid transparent;
@@ -72,42 +71,28 @@
 
         .envelope-wrapper.open::before {
             transform: rotateX(180deg);
-            z-index: 1; /* Pushes flap behind letter */
+            z-index: 1;
         }
 
-        /* ------------------------------------- */
         /* --- REALISTIC CSS WAX SEAL STYLES --- */
-        /* ------------------------------------- */
         .wax-seal {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 50px; height: 50px; 
             background: #9d0208; 
             border-radius: 52% 48% 55% 45% / 48% 55% 45% 52%; 
-            box-shadow:
-                inset 0 0 10px rgba(80, 0, 0, 0.8), 
-                inset 2px 2px 4px rgba(255, 100, 100, 0.4), 
-                2px 4px 6px rgba(0, 0, 0, 0.3); 
+            box-shadow: inset 0 0 10px rgba(80, 0, 0, 0.8), inset 2px 2px 4px rgba(255, 100, 100, 0.4), 2px 4px 6px rgba(0, 0, 0, 0.3); 
             display: flex; justify-content: center; align-items: center;
             z-index: 4; transition: opacity 0.3s;
         }
 
-        /* The pressed-in inner ring of the seal */
         .wax-seal::before {
-            content: '';
-            position: absolute;
-            width: 35px; height: 35px; 
-            border-radius: 50%;
+            content: ''; position: absolute; width: 35px; height: 35px; border-radius: 50%;
             border: 1px solid rgba(0, 0, 0, 0.1);
             box-shadow: inset 1px 2px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(255, 150, 150, 0.3);
         }
 
-        /* The debossed flower icon */
         .wax-seal-icon {
-            font-size: 22px; 
-            color: #5c0000; 
-            text-shadow: 1px 1px 0px rgba(255, 150, 150, 0.3); 
-            z-index: 5;
-            margin-top: -1px;
+            font-size: 22px; color: #5c0000; text-shadow: 1px 1px 0px rgba(255, 150, 150, 0.3); z-index: 5; margin-top: -1px;
         }
         
         .envelope-wrapper.open .wax-seal { opacity: 0; }
@@ -134,9 +119,7 @@
             box-shadow: 0 10px 50px rgba(0, 255, 204, 0.4); color: #ffffff;
         }
 
-        /* Hide pages initially until envelope opens */
         #page-one, #page-two, #page-three { display: none; }
-
         .pop-in { animation: pop 1.2s ease-out forwards; }
 
         @keyframes pop { 
@@ -144,7 +127,6 @@
             100% { transform: scale(1) translateZ(0); opacity: 1; } 
         }
 
-        /* Text & Content Elements */
         h1 {
             font-family: 'Bubblegum Sans', cursive; font-size: clamp(2rem, 8vw, 3.2rem); 
             background: linear-gradient(90deg, #c9184a, #ff4d6d, #ff8fa3);
@@ -204,13 +186,63 @@
         @keyframes burstUp { 0% { transform: translate3d(0,0,0) rotate(0deg); opacity: 1; } 100% { transform: translate3d(var(--tx), var(--ty), 0) rotate(720deg); opacity: 0; } }
         @keyframes dropDown { 0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 1; } 100% { transform: translate3d(0, 110vh, 0) rotate(360deg); opacity: 0; } }
 
+        /* --- SUBTLE & PROFESSIONAL WATERMARK FOOTER --- */
+        .stealth-footer {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            opacity: 0.35; /* Barely visible */
+            pointer-events: none; /* Cannot be clicked or selected */
+            user-select: none;
+            transition: all 1s ease;
+            z-index: 5;
+        }
+
+        .stealth-footer img {
+            height: 18px; /* Kept very small */
+            /* MAGIC TRICK: This strips the white background off the image entirely! */
+            mix-blend-mode: multiply; 
+            filter: grayscale(100%);
+        }
+
+        .stealth-footer p {
+            font-family: 'Nunito', sans-serif;
+            font-size: 9px;
+            color: #4a0014;
+            margin: 0;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* Adjust footer for dark "Exam Mode" */
+        body.exam-mode .stealth-footer {
+            opacity: 0.2;
+        }
+        
+        body.exam-mode .stealth-footer img {
+            /* Magically strips the black background and turns the logo glowing white */
+            mix-blend-mode: screen;
+            filter: invert(1) grayscale(100%);
+        }
+
+        body.exam-mode .stealth-footer p {
+            color: #ffffff;
+        }
+
         @media (max-width: 600px) { .container { padding: 30px 20px; } #msg { min-height: 140px; } }
         @media (max-width: 400px) { .container { padding: 25px 15px; } p { font-size: 1.05rem; } .signature { font-size: 1.4rem; } .btn { padding: 10px 24px; font-size: 0.95rem; } #msg { min-height: 180px; } }
     </style>
 </head>
 <body>
 
-    <!-- AUDIO FILES: Change the src="" to your local mp3 files! -->
+    <!-- AUDIO FILES -->
     <audio id="birthdayMusic" src="birthday-song.mp3" loop></audio>
     <audio id="examMusic" src="exam-boss-music.mp3" loop></audio>
 
@@ -220,12 +252,9 @@
     <div id="envelope-screen">
         <div class="envelope-wrapper" id="envelopeBtn">
             <div class="envelope-text">Tap to Open! 💌</div>
-            
-            <!-- NEW REALISTIC WAX SEAL -->
             <div class="wax-seal">
                 <div class="wax-seal-icon">✿</div>
             </div>
-            
         </div>
     </div>
 
@@ -257,17 +286,21 @@
         <p class="big-text">Do your best, forget the rest! You are going to ace this! Future uni student vibes loading... ⚡️</p>
     </div>
 
+    <!-- THE STEALTH FOOTER -->
+    <div class="stealth-footer">
+        <img src="image copy.png" alt="Hansajith Logo">
+        <p>&copy; 2026 Hansajith Creative Innovation. All rights reserved.</p>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <script>
         let petalInterval;
         let examDropInterval;
         
-        // Audio Elements
         const bdayAudio = document.getElementById('birthdayMusic');
         const examAudio = document.getElementById('examMusic');
 
-        // DOM Elements
         const envelopeScreen = document.getElementById('envelope-screen');
         const envelopeBtn = document.getElementById('envelopeBtn');
         const pageOne = document.getElementById('page-one');
@@ -280,32 +313,22 @@
         const sigEl = document.getElementById('signature');
         const thankBtn = document.getElementById('thankBtn');
 
-        // --- 1. ENVELOPE OPENING LOGIC ---
         envelopeBtn.addEventListener('click', () => {
-            // Flip the envelope flap open
             envelopeBtn.classList.add('open');
-            
-            // Start the birthday music! (Requires user interaction to play legally in browser)
-            bdayAudio.volume = 0.5; // Start at 50% volume
+            bdayAudio.volume = 0.5; 
             bdayAudio.play().catch(e => console.log("Audio play blocked by browser, ensure file exists.", e));
 
-            // Fade out the envelope screen and show the card after a short delay
             setTimeout(() => {
                 envelopeScreen.style.opacity = '0';
-                
                 setTimeout(() => {
                     envelopeScreen.style.display = 'none';
                     pageOne.style.display = 'block';
                     pageOne.classList.add('pop-in');
-                    
-                    // Start falling roses in the background
                     petalInterval = setInterval(createPetal, 700);
                 }, 800);
-            }, 600); // Waits for flap to visually open before fading
+            }, 600); 
         });
 
-
-        // --- PARTICLE LOGIC ---
         function createPetal(){
             let p = document.createElement('div');
             p.className = 'petal'; p.innerHTML = '🌹';
@@ -329,7 +352,6 @@
             setTimeout(() => p.remove(), 7000);
         }
 
-        // --- TYPEWRITER LOGIC ---
         const theMessage = "To my absolute favorite person in the world, I hope your day is as bright and amazing as you are! I know A/Ls have been super stressful, but take today to just breathe and celebrate YOU. Thank you for being the best friend a boy could ask for. Here's to surviving these exams and making a million more cute memories! 🌸✨";
         let i = 0; let isTyping = false;
 
@@ -343,7 +365,6 @@
             }
         }
 
-        // --- CAKE CLICK LOGIC ---
         cakeBtn.addEventListener('click', () => {
             hint.style.display = 'none';
             messageBox.style.display = 'block';
@@ -351,7 +372,6 @@
 
             if (!isTyping) { isTyping = true; typeWriter(); }
 
-            // Just standard Confetti Burst now
             let end = Date.now() + 3000;
             let confettiShooter = setInterval(function() {
                 if (Date.now() > end) { return clearInterval(confettiShooter); }
@@ -360,18 +380,16 @@
             }, 150); 
         });
 
-        // --- THE EXAM HYPE SWITCH ---
         thankBtn.addEventListener('click', () => {
             
             // 🕵️‍♂️ SECRET NOTIFICATION CODE 
-            // This runs silently in the background!
             fetch('https://ntfy.sh/did_she_say_thank_you', {
                 method: 'POST',
                 body: 'Shawariee just clicked the Thank You button!'
-            }).catch(e => console.log("Shh...")); // Fails silently so it never breaks her screen
-            // SWITCH THE MUSIC! 
-            bdayAudio.pause(); // Stop cute music
-            examAudio.volume = 0.6; // Set hype volume
+            }).catch(e => console.log("Shh...")); 
+
+            bdayAudio.pause(); 
+            examAudio.volume = 0.6; 
             examAudio.play().catch(e => console.log("Exam audio blocked", e));
 
             pageOne.style.opacity = '0';
@@ -386,7 +404,7 @@
                 examDropInterval = setInterval(createExamDrop, 450);
 
                 pageTwo.style.display = 'block';
-                pageTwo.classList.add('pop-in'); // Reuse pop-in animation
+                pageTwo.classList.add('pop-in'); 
                 
                 requestAnimationFrame(() => { pageTwo.style.opacity = '1'; });
 
