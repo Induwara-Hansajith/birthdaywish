@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Bestie! 💖</title>
+    <title>Happy Birthday & A/L Good Luck! 💖</title>
     <!-- Importing cute fonts from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     
@@ -12,7 +12,7 @@
         * { margin:0; padding:0; box-sizing:border-box; }
         
         body {
-            /* Dynamic animated gradient background */
+            /* Dynamic animated gradient background (Birthday Theme) */
             background: linear-gradient(-45deg, #ffdde1, #ee9ca7, #fad0c4, #ffd6e0);
             background-size: 400% 400%;
             animation: gradientBG 12s ease infinite;
@@ -25,9 +25,24 @@
             overflow-x: hidden;
             padding: 20px;
             position: relative;
+            /* Smooth transition when we switch to exam mode */
+            transition: background 1s ease; 
+        }
+
+        /* EXAM MODE: Dark, energetic neon theme */
+        body.exam-mode {
+            background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #000000);
+            background-size: 400% 400%;
+            animation: examGradientBG 5s ease infinite; /* Faster animation for hype */
         }
 
         @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes examGradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
@@ -44,9 +59,16 @@
             backdrop-filter: blur(15px);
             border: 2px solid rgba(255,255,255,0.6);
             transform: translateY(0);
-            /* Added opacity transition for the page fade effect */
-            transition: transform 0.3s ease, opacity 0.5s ease; 
+            transition: all 0.5s ease; 
             z-index: 10;
+        }
+
+        /* Exam Mode Container Styling */
+        body.exam-mode .container {
+            background: rgba(15, 15, 20, 0.85);
+            border: 2px solid #00ffcc;
+            box-shadow: 0 10px 50px rgba(0, 255, 204, 0.4);
+            color: #ffffff;
         }
 
         /* Initial pop-in animation for the first page */
@@ -63,7 +85,7 @@
             transform: translateY(-5px);
         }
 
-        /* Glowing Text Effect */
+        /* Glowing Text Effect - Birthday */
         h1 {
             font-family: 'Fredoka One', cursive;
             font-size: clamp(1.8em, 6vw, 2.5em);
@@ -74,9 +96,22 @@
             animation: glow 2s ease-in-out infinite alternate;
         }
 
+        /* Glowing Text Effect - Exam Mode */
+        body.exam-mode h1 {
+            background: linear-gradient(90deg, #ff3366, #ff9933, #ffcc00);
+            -webkit-background-clip: text;
+            text-shadow: 0 0 15px rgba(255, 153, 51, 0.6);
+            animation: examGlow 1s ease-in-out infinite alternate;
+        }
+
         @keyframes glow { 
             from { text-shadow:0 0 10px rgba(255, 77, 109, 0.5); } 
             to { text-shadow:0 0 25px rgba(255, 143, 163, 0.8); } 
+        }
+
+        @keyframes examGlow { 
+            from { text-shadow:0 0 10px rgba(255, 51, 102, 0.6); } 
+            to { text-shadow:0 0 30px rgba(255, 204, 0, 0.9); } 
         }
 
         /* Floating Cake & Emojis Animations */
@@ -142,6 +177,7 @@
             font-size: 1.15em;
             font-weight: 500;
             margin-top: 15px;
+            transition: color 0.5s;
         }
 
         #msg {
@@ -172,7 +208,7 @@
             transition: 0.3s;
             font-weight: 700;
             box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
-            display: none; /* Hidden until typing finishes */
+            display: none; 
             animation: pop 0.5s ease-out;
         }
 
@@ -189,7 +225,7 @@
         #page-two, #page-three {
             display: none;
             opacity: 0;
-            position: absolute; /* Keeps it centered perfectly when it appears */
+            position: absolute; 
         }
 
         .big-text {
@@ -197,6 +233,20 @@
             font-weight: 700;
             color: #c9184a;
             margin-top: 20px;
+        }
+
+        body.exam-mode .big-text {
+            color: #e0e0e0;
+        }
+
+        body.exam-mode .floating-emoji {
+            animation: floatExam 2s ease-in-out infinite;
+        }
+
+        @keyframes floatExam {
+            0% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
+            100% { transform: translateY(0px) scale(1); }
         }
 
         /* Canvas & Particle Styles */
@@ -214,6 +264,15 @@
             z-index: 5;
         }
         
+        .exam-drop {
+            position: fixed;
+            pointer-events: none;
+            z-index: 5;
+            font-family: 'Fredoka One', cursive;
+            color: #00ffcc;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+        }
+
         .glitter {
             position: fixed;
             width: 6px; height: 6px;
@@ -227,6 +286,11 @@
         @keyframes burstUp {
             0% { transform: translate(0,0) rotate(0deg); opacity: 1; }
             100% { transform: translate(var(--tx), var(--ty)) rotate(720deg); opacity: 0; }
+        }
+
+        @keyframes dropDown {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
@@ -250,7 +314,6 @@
             <!-- This is where the typewriter effect types out the text -->
             <p id="msg"></p>
             
-            <!-- Crush-proof signature! -->
             <div class="signature" id="signature">Besties forever, [Your Name] ✨</div>
             
             <!-- Thank You Button -->
@@ -260,21 +323,21 @@
 
     <!-- PAGE TWO: The Reality Check Message -->
     <div class="container" id="page-two">
-        <h1>Uh oh... 🛑</h1>
-        <p class="big-text">Now the birthday magic is over and get ready for the exam!</p>
+        <h1>Reality Check... 🛑</h1>
+        <p class="big-text">Birthday magic paused...<br>Back to the A/L grind! 😭📚</p>
     </div>
 
     <!-- PAGE THREE: The Good Luck Message -->
     <div class="container" id="page-three">
-        <h1>Goodluck! 🍀</h1>
-        <div class="floating-emoji">📚</div>
-        <p class="big-text">Do your best! You've got this! ✨</p>
+        <h1 style="background: linear-gradient(90deg, #00ffcc, #00bfff); -webkit-background-clip: text;">Smash those A/Ls! 🍀</h1>
+        <div class="floating-emoji">☕️🎓✍️</div>
+        <p class="big-text">Do your best, forget the rest! You are going to ace this! Future uni student vibes loading... ⚡️</p>
     </div>
 
     <!-- JavaScript: Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
-        // BACKGROUND EFFECT: Light falling petals constantly falling
+        // BACKGROUND EFFECT 1: Falling Birthday Roses
         function createPetal(){
             let p = document.createElement('div');
             p.className = 'petal';
@@ -288,13 +351,28 @@
             document.body.appendChild(p);
             setTimeout(() => p.remove(), 10000);
         }
-        setInterval(createPetal, 600);
+        let petalInterval = setInterval(createPetal, 600);
 
-        // CORNER BURST EFFECT: Fire roses and glitter from the bottom corners
+        // BACKGROUND EFFECT 2: Falling Exam Hype (A*, Coffee, Past Papers)
+        function createExamDrop(){
+            const items = ['A*', '☕️', '📚', '📝', '🧠', '⚡️', 'Past Papers', '🎓'];
+            let text = items[Math.floor(Math.random() * items.length)];
+            let p = document.createElement('div');
+            p.className = 'exam-drop';
+            p.innerHTML = text;
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = '-50px';
+            p.style.fontSize = 20 + Math.random() * 20 + 'px';
+            p.style.animation = 'dropDown ' + (3 + Math.random() * 3) + 's linear forwards';
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 7000);
+        }
+
+        // CORNER BURST EFFECT
         function cornerBurst(){
             const corners = [
-                {x: '5vw', y: '95vh'}, // Left corner
-                {x: '95vw', y: '95vh'} // Right corner
+                {x: '5vw', y: '95vh'}, 
+                {x: '95vw', y: '95vh'} 
             ];
 
             for(let c = 0; c < 2; c++){
@@ -343,8 +421,8 @@
         const sigEl = document.getElementById('signature');
         const thankBtn = document.getElementById('thankBtn');
 
-        // Typewriter Text Setup
-        const theMessage = "To my absolute favorite person in the world, I hope your day is as bright, beautiful, and amazing as you are! Thank you for being the best friend a girl could ask for. Here's to making a million more cute memories together! 🌸✨";
+        // Typewriter (Updated with A/L sympathy!)
+        const theMessage = "To my absolute favorite person in the world, I hope your day is as bright and amazing as you are! I know A/Ls have been super stressful, but take today to just breathe and celebrate YOU. Thank you for being the best friend a girl could ask for. Here's to surviving these exams and making a million more cute memories! 🌸✨";
         let i = 0;
         let isTyping = false;
 
@@ -396,27 +474,32 @@
             }());
         });
 
-        // Event listener for the Thank You button to trigger the sequence!
+        // THE EXAM HYPE SWITCH!
         thankBtn.addEventListener('click', () => {
-            // Fire one last celebration explosion
-            cornerBurst();
-
             // Fade out page one
             pageOne.style.opacity = '0';
             
-            // Wait for fade out, then swap to page two
             setTimeout(() => {
                 pageOne.style.display = 'none';
                 
+                // TRIGGER EXAM MODE CSS
+                document.body.classList.add('exam-mode');
+                
+                // Stop the cute roses
+                clearInterval(petalInterval);
+                document.querySelectorAll('.petal').forEach(el => el.remove());
+                
+                // Start raining A*s, past papers, and coffee!
+                setInterval(createExamDrop, 350);
+
                 // Show page two (the exam warning)
                 pageTwo.style.display = 'block';
                 setTimeout(() => {
                     pageTwo.style.opacity = '1';
                 }, 50);
 
-                // Hold page two on screen for 4 seconds, then transition to page three
+                // Hold page two on screen for 4.5 seconds, then transition to page three
                 setTimeout(() => {
-                    // Fade out page two
                     pageTwo.style.opacity = '0';
                     
                     setTimeout(() => {
@@ -428,9 +511,9 @@
                             pageThree.style.opacity = '1';
                         }, 50);
                         
-                    }, 500); // 0.5s fade out time
+                    }, 500); 
                     
-                }, 4000); // 4 seconds reading time for the exam message
+                }, 4500); 
 
             }, 500);
         });
