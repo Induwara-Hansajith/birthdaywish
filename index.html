@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="image.png" type="image/png">
     <title>Happy Birthday & A/L Good Luck! 💖</title>
     <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
     
@@ -22,15 +23,9 @@
             text-align: center;
             overflow-x: hidden;
             padding: 20px;
-            padding-bottom: 60px; /* Space for the footer */
+            padding-bottom: 60px;
             position: relative;
-            transition: background 1.5s ease; /* Slowed down for smooth night transition */
-        }
-
-        /* --- THE LATE NIGHT MODE --- */
-        body.night-mode {
-            background: linear-gradient(-45deg, #0b0c10, #1f2833, #1a1a2e, #000000);
-            background-size: 400% 400%;
+            transition: background 1s ease; 
         }
 
         body.exam-mode {
@@ -108,46 +103,6 @@
             animation: float 2s infinite ease-in-out;
         }
 
-        /* --- THE EASTER EGG ELEMENTS --- */
-        #moon-btn {
-            position: absolute;
-            top: 20px; right: 25px;
-            font-size: 30px;
-            cursor: pointer;
-            z-index: 100;
-            opacity: 0; /* Hidden until envelope opens */
-            transition: transform 0.3s, opacity 1s ease;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        #moon-btn:hover { transform: scale(1.1) rotate(15deg); }
-
-        #secret-message {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-            z-index: 3000;
-            display: none; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.5s;
-            cursor: pointer;
-        }
-
-        .chat-bubble {
-            background: linear-gradient(135deg, #1f2833, #2b3a4a);
-            color: #e0e0e0;
-            padding: 25px 30px;
-            border-radius: 20px 20px 0 20px;
-            font-size: 1.15rem;
-            max-width: 85%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.1);
-            font-family: 'Nunito', sans-serif;
-            font-weight: 700;
-            line-height: 1.5;
-            transform: translateY(20px);
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .chat-bubble span { color: #ffafbd; }
-
         /* --- THE CARD CONTAINERS --- */
         .container {
             background: rgba(255, 255, 255, 0.65);
@@ -224,6 +179,55 @@
         body.exam-mode .floating-emoji { animation: floatExam 2s ease-in-out infinite; }
         @keyframes floatExam { 0%, 100% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-20px) scale(1.1); } }
 
+        /* --- NEW: SECRET REPLY BOX STYLES --- */
+        .reply-section {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            animation: pop 1s ease-out 1s forwards; /* Delays appearance slightly */
+        }
+        .reply-prompt {
+            color: #00ffcc;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        #replyInput {
+            width: 100%;
+            max-width: 280px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid #00bfff;
+            border-radius: 15px;
+            color: white;
+            padding: 15px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            resize: none;
+            outline: none;
+            margin-bottom: 15px;
+            transition: 0.3s ease;
+        }
+        #replyInput:focus {
+            border-color: #00ffcc;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+        }
+        #sendReplyBtn {
+            background: linear-gradient(90deg, #00bfff, #00ffcc);
+            color: #000;
+            display: inline-block;
+            margin-top: 0;
+        }
+        #replyStatus {
+            display: none;
+            color: #00ffcc;
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            animation: pop 0.5s ease-out forwards;
+        }
+
         /* Particles */
         #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
         .petal, .exam-drop { position: fixed; pointer-events: none; z-index: 5; will-change: transform, opacity; }
@@ -275,22 +279,11 @@
 </head>
 <body>
 
-    <!-- AUDIO FILES -->
     <audio id="birthdayMusic" src="birthday-song.mp3" loop></audio>
     <audio id="examMusic" src="exam-boss-music.mp3" loop></audio>
 
     <canvas id="confetti-canvas"></canvas>
 
-    <!-- NEW: THE MOON EASTER EGG -->
-    <div id="moon-btn" title="Secret message...">🌙</div>
-    
-    <div id="secret-message">
-        <div class="chat-bubble">
-            Just a reminder that talking to you is my favorite part of every day. <span>Good luck with the A/Ls</span>—I'll be right here cheering you on every day. ✨
-        </div>
-    </div>
-
-    <!-- THE ENVELOPE SCREEN -->
     <div id="envelope-screen">
         <div class="envelope-wrapper" id="envelopeBtn">
             <div class="envelope-text">Tap to Open! 💌</div>
@@ -300,7 +293,6 @@
         </div>
     </div>
 
-    <!-- MAIN PAGES -->
     <div class="container" id="page-one">
         <h1>Happy Birthday Shawariee! 🌹</h1>
         <div class="cake" id="cakeBtn">🎂</div>
@@ -308,7 +300,6 @@
 
         <div id="message-box">
             <div class="polaroid">
-                <!-- Replace with your own cute pic link! -->
                 <img src="idiot.jpeg" alt="bolee">
             </div>
             <p id="msg"></p>
@@ -326,9 +317,16 @@
         <h1 style="background: linear-gradient(90deg, #00ffcc, #00bfff); -webkit-background-clip: text;">Smash those A/Ls! 🍀</h1>
         <div class="floating-emoji">☕️🎓✍️</div>
         <p class="big-text">Do your best, forget the rest! You are going to ace this! Future uni student vibes loading... ⚡️</p>
+        
+        <!-- NEW: SECRET REPLY SECTION -->
+        <div class="reply-section">
+            <p class="reply-prompt" id="replyPrompt">Send a secret reply...</p>
+            <textarea id="replyInput" rows="3" placeholder="Type something here..."></textarea>
+            <button class="btn" id="sendReplyBtn">Send 💌</button>
+            <p id="replyStatus">Message sent! ✨</p>
+        </div>
     </div>
 
-    <!-- THE STEALTH FOOTER -->
     <div class="stealth-footer">
         <img src="image copy.png" alt="Hansajith Logo">
         <p>&copy; 2026 Hansajith Creative Innovation. All rights reserved.</p>
@@ -355,15 +353,10 @@
         const sigEl = document.getElementById('signature');
         const thankBtn = document.getElementById('thankBtn');
 
-        const moonBtn = document.getElementById('moon-btn');
-        const secretMsg = document.getElementById('secret-message');
-        const chatBubble = document.querySelector('.chat-bubble');
-
-        // --- ENVELOPE OPENING ---
         envelopeBtn.addEventListener('click', () => {
             envelopeBtn.classList.add('open');
             bdayAudio.volume = 0.5; 
-            bdayAudio.play().catch(e => console.log("Audio play blocked by browser, ensure file exists.", e));
+            bdayAudio.play().catch(e => console.log("Audio play blocked"));
 
             setTimeout(() => {
                 envelopeScreen.style.opacity = '0';
@@ -372,35 +365,8 @@
                     pageOne.style.display = 'block';
                     pageOne.classList.add('pop-in');
                     petalInterval = setInterval(createPetal, 700);
-                    
-                    // Reveal the secret moon 1.5 seconds after opening
-                    setTimeout(() => {
-                        moonBtn.style.opacity = '1';
-                    }, 1500);
-
                 }, 800);
             }, 600); 
-        });
-
-        // --- THE MOON EASTER EGG LOGIC ---
-        moonBtn.addEventListener('click', () => {
-            document.body.classList.add('night-mode');
-            secretMsg.style.display = 'flex';
-            
-            setTimeout(() => {
-                secretMsg.style.opacity = '1';
-                chatBubble.style.transform = 'translateY(0)';
-            }, 50);
-        });
-
-        secretMsg.addEventListener('click', () => {
-            secretMsg.style.opacity = '0';
-            chatBubble.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                secretMsg.style.display = 'none';
-                document.body.classList.remove('night-mode');
-            }, 500);
         });
 
         function createPetal(){
@@ -455,19 +421,15 @@
         });
 
         thankBtn.addEventListener('click', () => {
-            
-            // 🕵️‍♂️ SECRET NOTIFICATION CODE 
+            // First ping just to tell you she reached the end!
             fetch('https://ntfy.sh/did_she_say_thank_you', {
                 method: 'POST',
-                body: 'Shawariee said Thank You!'
+                body: 'Shawariee clicked Thank You and is looking at the final page!'
             }).catch(e => console.log("Shh...")); 
 
             bdayAudio.pause(); 
             examAudio.volume = 0.6; 
-            examAudio.play().catch(e => console.log("Exam audio blocked", e));
-            
-            // Hide the moon button during exam mode
-            moonBtn.style.display = 'none';
+            examAudio.play().catch(e => console.log("Exam audio blocked"));
 
             pageOne.style.opacity = '0';
             
@@ -498,6 +460,38 @@
                     }, 500); 
                 }, 4500); 
             }, 500);
+        });
+
+        // --- NEW: SEND REPLY LOGIC ---
+        const replyInput = document.getElementById('replyInput');
+        const sendReplyBtn = document.getElementById('sendReplyBtn');
+        const replyPrompt = document.getElementById('replyPrompt');
+        const replyStatus = document.getElementById('replyStatus');
+
+        sendReplyBtn.addEventListener('click', () => {
+            const messageText = replyInput.value.trim();
+            
+            if (messageText !== "") {
+                // Change button state so she knows it's working
+                sendReplyBtn.innerText = "Sending...";
+                sendReplyBtn.style.pointerEvents = "none";
+
+                // PING NTFY WITH HER MESSAGE!
+                fetch('https://ntfy.sh/did_she_say_thank_you', {
+                    method: 'POST',
+                    body: 'Shawariee says: ' + messageText
+                }).then(() => {
+                    // Hide the box and show success text
+                    replyInput.style.display = 'none';
+                    sendReplyBtn.style.display = 'none';
+                    replyPrompt.style.display = 'none';
+                    replyStatus.style.display = 'block';
+                }).catch(e => {
+                    sendReplyBtn.innerText = "Send 💌";
+                    sendReplyBtn.style.pointerEvents = "auto";
+                    alert("Oops, couldn't send! Check your internet.");
+                });
+            }
         });
     </script>
 </body>
