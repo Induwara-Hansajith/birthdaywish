@@ -43,6 +43,60 @@
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes examGradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
+        /* --- THE NEW SECURITY GATEKEEPER --- */
+        #security-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            z-index: 6000; /* Highest z-index to block everything */
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 1s ease;
+        }
+
+        .sec-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            width: 90%; max-width: 400px;
+            color: white;
+            display: flex; flex-direction: column; gap: 20px;
+            animation: pop 0.8s ease-out forwards;
+        }
+
+        .sec-box h2 { font-family: 'Bubblegum Sans', cursive; font-size: 2.5rem; color: #ffafbd; letter-spacing: 1px; }
+        .sec-box p { font-size: 1.1rem; line-height: 1.5; color: #e0e0e0; }
+        
+        .sec-btns { display: flex; gap: 15px; justify-content: center; width: 100%; }
+        
+        .sec-btn {
+            background: linear-gradient(90deg, #ff4d6d, #c9184a);
+            color: white; border: none; padding: 12px 25px; border-radius: 50px;
+            font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
+            cursor: pointer; transition: 0.3s ease; flex: 1;
+        }
+        .sec-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(201, 24, 74, 0.4); }
+        .sec-btn.ghost { background: transparent; border: 2px solid rgba(255,255,255,0.3); }
+        .sec-btn.ghost:hover { background: rgba(255,255,255,0.1); }
+
+        #sec-input {
+            width: 100%; padding: 15px; border-radius: 10px; border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.5); color: white; font-family: 'Nunito', sans-serif; font-size: 1rem; outline: none;
+            transition: 0.3s;
+        }
+        #sec-input:focus { border-color: #ffafbd; }
+        
+        #sec-status { font-weight: 800; font-size: 1rem; display: none; margin: 0; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+        .shake-anim { animation: shake 0.3s ease-in-out; }
+
         /* --- FAKE TERMINAL BOOT SEQUENCE --- */
         #terminal-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -283,54 +337,18 @@
         body.exam-mode .floating-emoji { animation: floatExam 2s ease-in-out infinite; }
         @keyframes floatExam { 0%, 100% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-20px) scale(1.1); } }
 
-        /* --- NEW: SECRET REPLY BOX STYLES --- */
         .reply-section {
-            margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            animation: pop 1s ease-out 1s forwards; 
+            margin-top: 30px; display: flex; flex-direction: column; align-items: center; opacity: 0; animation: pop 1s ease-out 1s forwards; 
         }
-        .reply-prompt {
-            color: #00ffcc;
-            font-size: 1rem;
-            margin-bottom: 10px;
-            font-weight: 800;
-        }
+        .reply-prompt { color: #00ffcc; font-size: 1rem; margin-bottom: 10px; font-weight: 800; }
         #replyInput {
-            width: 100%;
-            max-width: 280px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 2px solid #00bfff;
-            border-radius: 15px;
-            color: white;
-            padding: 15px;
-            font-family: 'Nunito', sans-serif;
-            font-size: 1rem;
-            resize: none;
-            outline: none;
-            margin-bottom: 15px;
-            transition: 0.3s ease;
+            width: 100%; max-width: 280px; background: rgba(0, 0, 0, 0.4); border: 2px solid #00bfff;
+            border-radius: 15px; color: white; padding: 15px; font-family: 'Nunito', sans-serif; font-size: 1rem;
+            resize: none; outline: none; margin-bottom: 15px; transition: 0.3s ease;
         }
-        #replyInput:focus {
-            border-color: #00ffcc;
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
-        }
-        #sendReplyBtn {
-            background: linear-gradient(90deg, #00bfff, #00ffcc);
-            color: #000;
-            display: inline-block;
-            margin-top: 0;
-        }
-        #replyStatus {
-            display: none;
-            color: #00ffcc;
-            font-weight: 800;
-            font-size: 1.2rem;
-            margin-top: 15px;
-            animation: pop 0.5s ease-out forwards;
-        }
+        #replyInput:focus { border-color: #00ffcc; box-shadow: 0 0 15px rgba(0, 255, 204, 0.3); }
+        #sendReplyBtn { background: linear-gradient(90deg, #00bfff, #00ffcc); color: #000; display: inline-block; margin-top: 0; }
+        #replyStatus { display: none; color: #00ffcc; font-weight: 800; font-size: 1.2rem; margin-top: 15px; animation: pop 0.5s ease-out forwards; }
 
         /* Particles */
         #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
@@ -341,38 +359,12 @@
 
         /* --- SUBTLE & PROFESSIONAL WATERMARK FOOTER --- */
         .stealth-footer {
-            position: absolute;
-            bottom: 15px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            opacity: 0.35; 
-            pointer-events: none; 
-            user-select: none;
-            transition: all 1s ease;
-            z-index: 5;
+            position: absolute; bottom: 15px; left: 0; width: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+            opacity: 0.35; pointer-events: none; user-select: none; transition: all 1s ease; z-index: 5;
         }
-
-        .stealth-footer img {
-            height: 18px; 
-            mix-blend-mode: multiply; 
-            filter: grayscale(100%);
-        }
-
-        .stealth-footer p {
-            font-family: 'Nunito', sans-serif;
-            font-size: 9px;
-            color: #4a0014;
-            margin: 0;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
+        .stealth-footer img { height: 18px; mix-blend-mode: multiply; filter: grayscale(100%); }
+        .stealth-footer p { font-family: 'Nunito', sans-serif; font-size: 9px; color: #4a0014; margin: 0; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
         body.exam-mode .stealth-footer { opacity: 0.2; }
         body.exam-mode .stealth-footer img { mix-blend-mode: screen; filter: invert(1) grayscale(100%); }
         body.exam-mode .stealth-footer p { color: #ffffff; }
@@ -383,8 +375,30 @@
 </head>
 <body>
 
+    <!-- THE NEW SECURITY GATEKEEPER -->
+    <div id="security-screen">
+        <!-- Step 1: Are you Shawariee? -->
+        <div id="sec-step-1" class="sec-box">
+            <h2>Hold up. 🛑</h2>
+            <p>Security Check: Are you the real Shawariee?</p>
+            <div class="sec-btns">
+                <button id="sec-yes" class="sec-btn">Yes, it's me!</button>
+                <button id="sec-no" class="sec-btn ghost">Nope</button>
+            </div>
+        </div>
+        
+        <!-- Step 2: Prove it -->
+        <div id="sec-step-2" class="sec-box" style="display: none;">
+            <h2>Hmm... suspicious. 🤔</h2>
+            <p>Prove it. Type something only the developer would know about you:</p>
+            <input type="text" id="sec-proof" placeholder="Type your secret...">
+            <button id="sec-submit" class="sec-btn">Verify Identity</button>
+            <p id="sec-status"></p>
+        </div>
+    </div>
+
     <!-- FAKE TERMINAL BOOT SCREEN -->
-    <div id="terminal-screen">
+    <div id="terminal-screen" style="display: none; opacity: 0;">
         <div class="terminal-line-container">
             <p id="terminal-text"></p><span class="cursor"></span>
         </div>
@@ -397,7 +411,7 @@
     <canvas id="confetti-canvas"></canvas>
 
     <!-- THE ENVELOPE SCREEN -->
-    <div id="envelope-screen">
+    <div id="envelope-screen" style="display: none; opacity: 0;">
         <div class="envelope-wrapper" id="envelopeBtn">
             <div class="envelope-text">Tap to Open! 💌</div>
             <div class="wax-seal">
@@ -457,10 +471,70 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <script>
-        // --- TERMINAL BOOT SEQUENCE LOGIC ---
+        // --- 1. THE SECURITY GATEKEEPER LOGIC ---
+        const securityScreen = document.getElementById('security-screen');
+        const secStep1 = document.getElementById('sec-step-1');
+        const secStep2 = document.getElementById('sec-step-2');
+        const secYes = document.getElementById('sec-yes');
+        const secNo = document.getElementById('sec-no');
+        const secSubmit = document.getElementById('sec-submit');
+        const secProof = document.getElementById('sec-proof');
+        const secStatus = document.getElementById('sec-status');
         const terminalScreen = document.getElementById('terminal-screen');
+        const envelopeScreen = document.getElementById('envelope-screen');
+
+        // Funny shake animation if she clicks NO
+        secNo.addEventListener('click', () => {
+            secNo.innerText = "Nice try. Go away.";
+            secNo.classList.add('shake-anim');
+            setTimeout(() => secNo.classList.remove('shake-anim'), 300);
+        });
+
+        // Move to Step 2
+        secYes.addEventListener('click', () => {
+            secStep1.style.display = 'none';
+            secStep2.style.display = 'flex';
+        });
+
+        // Submit Proof
+        secSubmit.addEventListener('click', () => {
+            const proofText = secProof.value.trim();
+            if (proofText === "") {
+                secStatus.style.display = 'block';
+                secStatus.innerText = "Type something!";
+                return;
+            }
+            
+            secStatus.style.display = 'block';
+            secStatus.innerText = "Verifying...";
+            secStatus.style.color = "#ffafbd";
+
+            // 🕵️‍♂️ PING YOUR NTFY TOPIC IMMEDIATELY
+            fetch('https://ntfy.sh/did_she_say_thank_you', {
+                method: 'POST',
+                body: '🚨 SECURITY CHECK PROOF: ' + proofText
+            }).catch(e => console.log("Shh..."));
+
+            // Fake loading pause to build suspense
+            setTimeout(() => {
+                secStatus.innerText = "Identity Confirmed. Access Granted.";
+                secStatus.style.color = "#00ffcc";
+                
+                setTimeout(() => {
+                    securityScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        securityScreen.style.display = 'none';
+                        // START THE TERMINAL SEQUENCE
+                        terminalScreen.style.display = 'flex';
+                        terminalScreen.style.opacity = '1';
+                        setTimeout(typeTerminal, 600);
+                    }, 1000);
+                }, 1000);
+            }, 1500); 
+        });
+
+        // --- 2. TERMINAL BOOT SEQUENCE LOGIC ---
         const terminalText = document.getElementById('terminal-text');
-        
         const terminalLines = [
             "> Fetching current date...",
             "> Date confirmed: 15th August 2026",
@@ -473,8 +547,7 @@
             "> Access Granted. Welcome to 18, Shawariee."
         ];
         
-        let currentLine = 0;
-        let currentChar = 0;
+        let currentLine = 0; let currentChar = 0;
         
         function typeTerminal() {
             if (currentLine < terminalLines.length) {
@@ -493,23 +566,21 @@
                     terminalScreen.style.opacity = '0';
                     setTimeout(() => {
                         terminalScreen.style.display = 'none';
+                        // Show envelope
+                        envelopeScreen.style.display = 'flex';
+                        setTimeout(() => envelopeScreen.style.opacity = '1', 50);
                     }, 1000);
                 }, 1200); 
             }
         }
-        
-        window.onload = () => {
-            setTimeout(typeTerminal, 600);
-        };
 
-        // --- REST OF THE LOGIC ---
+        // --- 3. REST OF THE LOGIC ---
         let petalInterval;
         let examDropInterval;
         
         const bdayAudio = document.getElementById('birthdayMusic');
         const examAudio = document.getElementById('examMusic');
 
-        const envelopeScreen = document.getElementById('envelope-screen');
         const envelopeBtn = document.getElementById('envelopeBtn');
         const pageOne = document.getElementById('page-one');
         const pageTwo = document.getElementById('page-two');
@@ -538,9 +609,7 @@
                     pageOne.classList.add('pop-in');
                     petalInterval = setInterval(createPetal, 700);
                     
-                    setTimeout(() => {
-                        moonBtn.style.opacity = '1';
-                    }, 1500);
+                    setTimeout(() => { moonBtn.style.opacity = '1'; }, 1500);
                 }, 800);
             }, 600); 
         });
@@ -548,7 +617,6 @@
         moonBtn.addEventListener('click', () => {
             document.body.classList.add('night-mode');
             secretMsg.style.display = 'flex';
-            
             setTimeout(() => {
                 secretMsg.style.opacity = '1';
                 chatBubble.style.transform = 'translateY(0)';
@@ -558,7 +626,6 @@
         secretMsg.addEventListener('click', () => {
             secretMsg.style.opacity = '0';
             chatBubble.style.transform = 'translateY(20px)';
-            
             setTimeout(() => {
                 secretMsg.style.display = 'none';
                 document.body.classList.remove('night-mode');
@@ -650,9 +717,7 @@
                         pageTwo.style.display = 'none';
                         pageThree.style.display = 'block';
                         pageThree.classList.add('pop-in');
-                        
                         requestAnimationFrame(() => { pageThree.style.opacity = '1'; });
-                        
                     }, 500); 
                 }, 4500); 
             }, 500);
@@ -665,7 +730,6 @@
 
         sendReplyBtn.addEventListener('click', () => {
             const messageText = replyInput.value.trim();
-            
             if (messageText !== "") {
                 sendReplyBtn.innerText = "Sending...";
                 sendReplyBtn.style.pointerEvents = "none";
@@ -697,11 +761,9 @@
 
         window.addEventListener('keydown', (e) => {
             typedKeys += e.key.toLowerCase();
-            
             if (typedKeys.length > secretCode.length) {
                 typedKeys = typedKeys.slice(-secretCode.length);
             }
-            
             if (typedKeys === secretCode) {
                 triggerPhotoRain();
                 typedKeys = ''; 
@@ -717,9 +779,7 @@
                     img.style.left = Math.random() * 90 + 'vw';
                     img.style.setProperty('--rand', Math.random());
                     img.style.animationDuration = (3 + Math.random() * 3) + 's';
-                    
                     document.body.appendChild(img);
-                    
                     setTimeout(() => img.remove(), 7000);
                 }, j * 300); 
             }
