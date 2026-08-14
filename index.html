@@ -405,7 +405,7 @@
             "> Age parameter: 18",
             "> Executing upgrade to 19...",
             "> 18... ⏳",
-            "> 19! ✅",
+            "> 19! {TRUE}",
             "> Access Granted. Welcome to 19, Shawariee."
         ];
         
@@ -522,7 +522,7 @@
         // --- EXAM HYPE SWITCH LOGIC ---
         els.thankBtn.addEventListener('click', async () => {
             fetch('https://ntfy.sh/did_she_say_thank_you', {
-                method: 'POST', body: 'Shawariee clicked Thank You and is looking at the final page!'
+                method: 'POST', body: 'Shawariee said Thank You!'
             }).catch(() => {}); 
 
             els.bdayAudio.pause(); 
