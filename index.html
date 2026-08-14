@@ -13,7 +13,7 @@
         body {
             background: linear-gradient(-45deg, #ffdde1, #ee9ca7, #fad0c4, #ffd6e0);
             background-size: 400% 400%;
-            animation: gradientBG 12s ease infinite;
+            animation: bgPan 12s ease infinite;
             font-family: 'Nunito', sans-serif;
             display: flex;
             justify-content: center;
@@ -22,45 +22,29 @@
             min-height: 100dvh; 
             text-align: center;
             overflow-x: hidden;
-            padding: 20px;
-            padding-bottom: 60px;
+            padding: 20px 20px 60px 20px;
             position: relative;
             transition: background 1.5s ease; 
         }
 
-        /* --- THE LATE NIGHT MODE --- */
-        body.night-mode {
-            background: linear-gradient(-45deg, #0b0c10, #1f2833, #1a1a2e, #000000);
-            background-size: 400% 400%;
-        }
+        /* --- THEME MODES --- */
+        body.night-mode { background: linear-gradient(-45deg, #0b0c10, #1f2833, #1a1a2e, #000000); background-size: 400% 400%; }
+        body.exam-mode { background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #000000); background-size: 400% 400%; animation: bgPan 5s ease infinite; }
 
-        body.exam-mode {
-            background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #000000);
-            background-size: 400% 400%;
-            animation: examGradientBG 5s ease infinite; 
-        }
+        @keyframes bgPan { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        @keyframes examGradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-        /* --- THE NEW SECURITY GATEKEEPER --- */
+        /* --- THE SECURITY GATEKEEPER --- */
         #security-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 10, 15, 0.9);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            z-index: 6000; /* Highest z-index to block everything */
-            display: flex; justify-content: center; align-items: center;
+            background: rgba(10, 10, 15, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            z-index: 6000; display: flex; justify-content: center; align-items: center;
             transition: opacity 1s ease;
         }
 
         .sec-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            width: 90%; max-width: 400px;
-            color: white;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            width: 90%; max-width: 400px; color: white;
             display: flex; flex-direction: column; gap: 20px;
             animation: pop 0.8s ease-out forwards;
         }
@@ -71,9 +55,8 @@
         .sec-btns { display: flex; gap: 15px; justify-content: center; width: 100%; }
         
         .sec-btn {
-            background: linear-gradient(90deg, #ff4d6d, #c9184a);
-            color: white; border: none; padding: 12px 25px; border-radius: 50px;
-            font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
+            background: linear-gradient(90deg, #ff4d6d, #c9184a); color: white; border: none; 
+            padding: 12px 25px; border-radius: 50px; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
             cursor: pointer; transition: 0.3s ease; flex: 1;
         }
         .sec-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(201, 24, 74, 0.4); }
@@ -82,253 +65,110 @@
 
         #sec-input {
             width: 100%; padding: 15px; border-radius: 10px; border: 2px solid rgba(255,255,255,0.2);
-            background: rgba(0,0,0,0.5); color: white; font-family: 'Nunito', sans-serif; font-size: 1rem; outline: none;
-            transition: 0.3s;
+            background: rgba(0,0,0,0.5); color: white; font-family: 'Nunito', sans-serif; font-size: 1rem; outline: none; transition: 0.3s;
         }
         #sec-input:focus { border-color: #ffafbd; }
-        
         #sec-status { font-weight: 800; font-size: 1rem; display: none; margin: 0; }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-        }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25%, 75% { transform: translateX(-5px); } 50% { transform: translateX(5px); } }
         .shake-anim { animation: shake 0.3s ease-in-out; }
 
-        /* --- FAKE TERMINAL BOOT SEQUENCE --- */
+        /* --- TERMINAL BOOT SEQUENCE --- */
         #terminal-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #050505;
-            z-index: 5000; 
+            background: #050505; z-index: 5000; 
             display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
-            padding: 30px;
-            font-family: 'Courier New', Courier, monospace;
-            color: #00ffcc;
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            text-align: left;
-            transition: opacity 1s ease;
+            padding: 30px; font-family: 'Courier New', Courier, monospace; color: #00ffcc;
+            font-size: clamp(1rem, 4vw, 1.5rem); text-align: left; transition: opacity 1s ease;
         }
 
-        .terminal-line-container {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-end;
-        }
-
-        #terminal-text {
-            white-space: pre-wrap;
-            line-height: 1.8;
-            margin: 0;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 10px; height: 1.2em;
-            background: #00ffcc;
-            animation: blink 1s step-end infinite;
-            margin-left: 2px;
-            vertical-align: bottom;
-        }
-
+        .terminal-line-container { display: flex; align-items: flex-end; }
+        #terminal-text { white-space: pre-wrap; line-height: 1.8; margin: 0; }
+        .cursor { display: inline-block; width: 10px; height: 1.2em; background: #00ffcc; animation: blink 1s step-end infinite; margin-left: 2px; vertical-align: bottom; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* --- THE ENVELOPE STYLES --- */
+        /* --- ENVELOPE --- */
         #envelope-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(-45deg, #ffdde1, #ee9ca7);
-            z-index: 2000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 1s ease, visibility 1s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(-45deg, #ffdde1, #ee9ca7);
+            z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 1s ease, visibility 1s ease;
         }
 
-        .envelope-wrapper {
-            position: relative; width: 280px; height: 180px;
-            background: #ff4d6d; border-radius: 8px;
-            box-shadow: 0 15px 40px rgba(201, 24, 74, 0.4);
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
+        .envelope-wrapper { position: relative; width: 280px; height: 180px; background: #ff4d6d; border-radius: 8px; box-shadow: 0 15px 40px rgba(201, 24, 74, 0.4); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .envelope-wrapper::before, .envelope-wrapper::after { content: ''; position: absolute; left: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; }
+        .envelope-wrapper::before { top: 0; border-top: 100px solid #ff758f; transform-origin: top; transition: transform 0.6s ease-in-out; z-index: 3; border-radius: 8px 8px 0 0; }
+        .envelope-wrapper::after { bottom: 0; border-bottom: 110px solid #c9184a; z-index: 2; border-radius: 0 0 8px 8px; }
+        .envelope-wrapper.open::before { transform: rotateX(180deg); z-index: 1; }
 
-        .envelope-wrapper::before { 
-            content: ''; position: absolute; top: 0; left: 0;
-            border-left: 140px solid transparent; border-right: 140px solid transparent;
-            border-top: 100px solid #ff758f;
-            transform-origin: top; transition: transform 0.6s ease-in-out;
-            z-index: 3; border-radius: 8px 8px 0 0;
-        }
-
-        .envelope-wrapper::after { 
-            content: ''; position: absolute; bottom: 0; left: 0;
-            border-left: 140px solid transparent; border-right: 140px solid transparent;
-            border-bottom: 110px solid #c9184a; 
-            z-index: 2; border-radius: 0 0 8px 8px;
-        }
-
-        .envelope-wrapper.open::before {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-
-        /* --- REALISTIC CSS WAX SEAL STYLES --- */
+        /* --- WAX SEAL --- */
         .wax-seal {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 50px; height: 50px; 
-            background: #9d0208; 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px; background: #9d0208; 
             border-radius: 52% 48% 55% 45% / 48% 55% 45% 52%; 
             box-shadow: inset 0 0 10px rgba(80, 0, 0, 0.8), inset 2px 2px 4px rgba(255, 100, 100, 0.4), 2px 4px 6px rgba(0, 0, 0, 0.3); 
-            display: flex; justify-content: center; align-items: center;
-            z-index: 4; transition: opacity 0.3s;
+            display: flex; justify-content: center; align-items: center; z-index: 4; transition: opacity 0.3s;
         }
-
-        .wax-seal::before {
-            content: ''; position: absolute; width: 35px; height: 35px; border-radius: 50%;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            box-shadow: inset 1px 2px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(255, 150, 150, 0.3);
-        }
-
-        .wax-seal-icon {
-            font-size: 22px; color: #5c0000; text-shadow: 1px 1px 0px rgba(255, 150, 150, 0.3); z-index: 5; margin-top: -1px;
-        }
-        
+        .wax-seal::before { content: ''; position: absolute; width: 35px; height: 35px; border-radius: 50%; border: 1px solid rgba(0, 0, 0, 0.1); box-shadow: inset 1px 2px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(255, 150, 150, 0.3); }
+        .wax-seal-icon { font-size: 22px; color: #5c0000; text-shadow: 1px 1px 0px rgba(255, 150, 150, 0.3); z-index: 5; margin-top: -1px; }
         .envelope-wrapper.open .wax-seal { opacity: 0; }
 
-        .envelope-text {
-            position: absolute; top: -50px; width: 100%; text-align: center;
-            color: #c9184a; font-family: 'Bubblegum Sans', cursive; font-size: 28px;
-            animation: float 2s infinite ease-in-out;
-        }
+        .envelope-text { position: absolute; top: -50px; width: 100%; text-align: center; color: #c9184a; font-family: 'Bubblegum Sans', cursive; font-size: 28px; animation: float 2s infinite ease-in-out; }
 
-        /* --- THE EASTER EGG ELEMENTS --- */
-        #moon-btn {
-            position: absolute;
-            top: 20px; right: 25px;
-            font-size: 30px;
-            cursor: pointer;
-            z-index: 100;
-            opacity: 0; 
-            transition: transform 0.3s, opacity 1s ease;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
+        /* --- EASTER EGG ELEMENTS --- */
+        #moon-btn { position: absolute; top: 20px; right: 25px; font-size: 30px; cursor: pointer; z-index: 100; opacity: 0; transition: transform 0.3s, opacity 1s ease; user-select: none; -webkit-tap-highlight-color: transparent; }
         #moon-btn:hover { transform: scale(1.1) rotate(15deg); }
 
         #secret-message {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-            z-index: 3000;
-            display: none; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.5s;
-            cursor: pointer;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            z-index: 3000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.5s; cursor: pointer;
         }
 
         .chat-bubble {
-            background: linear-gradient(135deg, #1f2833, #2b3a4a);
-            color: #e0e0e0;
-            padding: 25px 30px;
-            border-radius: 20px 20px 0 20px;
-            font-size: 1.15rem;
-            max-width: 85%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.1);
-            font-family: 'Nunito', sans-serif;
-            font-weight: 700;
-            line-height: 1.5;
-            transform: translateY(20px);
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: linear-gradient(135deg, #1f2833, #2b3a4a); color: #e0e0e0; padding: 25px 30px; border-radius: 20px 20px 0 20px; font-size: 1.15rem; max-width: 85%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.1); font-family: 'Nunito', sans-serif; font-weight: 700; line-height: 1.5;
+            transform: translateY(20px); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .chat-bubble span { color: #ffafbd; }
 
-        /* --- SECRET PHOTO RAIN STYLES --- */
         .falling-photo {
-            position: fixed;
-            top: -200px;
-            width: 120px;
-            height: auto;
-            background: white;
-            padding: 5px 5px 15px 5px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            border-radius: 2px;
-            z-index: 9999;
-            pointer-events: none;
-            transform: rotate(calc(-20deg + 40deg * var(--rand))); 
-            animation: rainDown linear forwards;
-            will-change: transform;
+            position: fixed; top: -200px; width: 120px; height: auto; background: white; padding: 5px 5px 15px 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-radius: 2px;
+            z-index: 9999; pointer-events: none; transform: rotate(calc(-20deg + 40deg * var(--rand))); animation: rainDown linear forwards; will-change: transform;
         }
+        @keyframes rainDown { to { transform: translateY(120vh) rotate(calc(-40deg + 80deg * var(--rand))); } }
 
-        @keyframes rainDown {
-            to { transform: translateY(120vh) rotate(calc(-40deg + 80deg * var(--rand))); }
-        }
-
-        /* --- THE CARD CONTAINERS --- */
+        /* --- CARD CONTAINERS --- */
         .container {
-            background: rgba(255, 255, 255, 0.65);
-            padding: 40px; border-radius: 30px;
-            box-shadow: 0 10px 40px rgba(255, 105, 135, 0.3);
-            max-width: 500px; width: 90%;
-            -webkit-backdrop-filter: blur(15px); backdrop-filter: blur(15px);
-            border: 2px solid rgba(255,255,255,0.6);
+            background: rgba(255, 255, 255, 0.65); padding: 40px; border-radius: 30px; box-shadow: 0 10px 40px rgba(255, 105, 135, 0.3);
+            max-width: 500px; width: 90%; -webkit-backdrop-filter: blur(15px); backdrop-filter: blur(15px); border: 2px solid rgba(255,255,255,0.6);
             transform: translateZ(0); transition: all 0.5s ease; z-index: 10;
         }
 
-        body.exam-mode .container {
-            background: rgba(15, 15, 20, 0.85); border: 2px solid #00ffcc;
-            box-shadow: 0 10px 50px rgba(0, 255, 204, 0.4); color: #ffffff;
-        }
+        body.exam-mode .container { background: rgba(15, 15, 20, 0.85); border: 2px solid #00ffcc; box-shadow: 0 10px 50px rgba(0, 255, 204, 0.4); color: #ffffff; }
 
-        #page-one, #page-two, #page-three { display: none; }
+        .page { display: none; }
         .pop-in { animation: pop 1.2s ease-out forwards; }
+        @keyframes pop { 0% { transform: scale(0.7) translateZ(0); opacity: 0; } 100% { transform: scale(1) translateZ(0); opacity: 1; } }
 
-        @keyframes pop { 
-            0% { transform: scale(0.7) translateZ(0); opacity: 0; } 
-            100% { transform: scale(1) translateZ(0); opacity: 1; } 
-        }
-
-        h1 {
-            font-family: 'Bubblegum Sans', cursive; font-size: clamp(2rem, 8vw, 3.2rem); 
-            background: linear-gradient(90deg, #c9184a, #ff4d6d, #ff8fa3);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 10px; will-change: filter, text-shadow; animation: glow 2s ease-in-out infinite alternate;
-        }
-        body.exam-mode h1 {
-            background: linear-gradient(90deg, #ff3366, #ff9933, #ffcc00);
-            -webkit-background-clip: text; text-shadow: 0 0 15px rgba(255, 153, 51, 0.6);
-            animation: examGlow 1s ease-in-out infinite alternate;
-        }
+        h1 { font-family: 'Bubblegum Sans', cursive; font-size: clamp(2rem, 8vw, 3.2rem); background: linear-gradient(90deg, #c9184a, #ff4d6d, #ff8fa3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; will-change: filter, text-shadow; animation: glow 2s ease-in-out infinite alternate; }
+        body.exam-mode h1 { background: linear-gradient(90deg, #ff3366, #ff9933, #ffcc00); -webkit-background-clip: text; text-shadow: 0 0 15px rgba(255, 153, 51, 0.6); animation: examGlow 1s ease-in-out infinite alternate; }
 
         @keyframes glow { from { text-shadow:0 0 10px rgba(255, 77, 109, 0.5); } to { text-shadow:0 0 25px rgba(255, 143, 163, 0.8); } }
         @keyframes examGlow { from { text-shadow:0 0 10px rgba(255, 51, 102, 0.6); } to { text-shadow:0 0 30px rgba(255, 204, 0, 0.9); } }
 
-        .cake, .floating-emoji {
-            font-size: clamp(50px, 15vw, 80px); cursor: pointer;
-            animation: float 3s ease-in-out infinite; margin: 15px 0; display: inline-block;
-            transition: transform 0.2s; user-select: none; -webkit-tap-highlight-color: transparent; will-change: transform;
-        }
+        .cake, .floating-emoji { font-size: clamp(50px, 15vw, 80px); cursor: pointer; animation: float 3s ease-in-out infinite; margin: 15px 0; display: inline-block; transition: transform 0.2s; user-select: none; -webkit-tap-highlight-color: transparent; will-change: transform; }
         .cake:active { transform: scale(0.9); }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
 
         .hint { color: #c9184a; font-size: clamp(0.9rem, 3vw, 1rem); font-weight: 800; margin-top: -10px; margin-bottom: 20px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
         #message-box { display: none; opacity: 0; transition: opacity 1s ease-in; }
-        
-        .polaroid {
-            background: white; padding: 8px 8px 20px 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            transform: rotate(-3deg) translateZ(0); margin: 15px auto; max-width: 200px; width: 50%; min-width: 140px; border-radius: 4px;
-        }
+        .polaroid { background: white; padding: 8px 8px 20px 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); transform: rotate(-3deg) translateZ(0); margin: 15px auto; max-width: 200px; width: 50%; min-width: 140px; border-radius: 4px; }
         .polaroid img { width: 100%; height: auto; border-radius: 3px; }
-
         p { color: #4a0014; line-height: 1.6; font-size: 1.15rem; font-weight: 700; margin-top: 15px; transition: color 0.5s; }
         #msg { min-height: 100px; }
 
         .signature { color: #ff5e7e; font-weight: normal; font-size: 1.6rem; font-family: 'Bubblegum Sans', cursive; margin-top: 10px; display: none; animation: pop 0.5s ease-out; }
 
-        .btn {
-            background: linear-gradient(90deg, #c9184a, #ff4d6d); color: white; border: none; padding: 12px 28px;
-            border-radius: 50px; font-size: 1rem; font-family: 'Nunito', sans-serif; cursor: pointer; margin-top: 20px;
-            transition: 0.3s; font-weight: 800; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3); display: none; animation: pop 0.5s ease-out; will-change: transform;
-        }
+        .btn { background: linear-gradient(90deg, #c9184a, #ff4d6d); color: white; border: none; padding: 12px 28px; border-radius: 50px; font-size: 1rem; font-family: 'Nunito', sans-serif; cursor: pointer; margin-top: 20px; transition: 0.3s; font-weight: 800; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3); display: none; animation: pop 0.5s ease-out; will-change: transform; }
         .btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(255, 77, 109, 0.5); }
         .btn:active { transform: scale(0.95); }
 
@@ -337,32 +177,23 @@
         body.exam-mode .floating-emoji { animation: floatExam 2s ease-in-out infinite; }
         @keyframes floatExam { 0%, 100% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-20px) scale(1.1); } }
 
-        .reply-section {
-            margin-top: 30px; display: flex; flex-direction: column; align-items: center; opacity: 0; animation: pop 1s ease-out 1s forwards; 
-        }
+        /* --- SECRET REPLY BOX --- */
+        .reply-section { margin-top: 30px; display: flex; flex-direction: column; align-items: center; opacity: 0; animation: pop 1s ease-out 1s forwards; }
         .reply-prompt { color: #00ffcc; font-size: 1rem; margin-bottom: 10px; font-weight: 800; }
-        #replyInput {
-            width: 100%; max-width: 280px; background: rgba(0, 0, 0, 0.4); border: 2px solid #00bfff;
-            border-radius: 15px; color: white; padding: 15px; font-family: 'Nunito', sans-serif; font-size: 1rem;
-            resize: none; outline: none; margin-bottom: 15px; transition: 0.3s ease;
-        }
+        #replyInput { width: 100%; max-width: 280px; background: rgba(0, 0, 0, 0.4); border: 2px solid #00bfff; border-radius: 15px; color: white; padding: 15px; font-family: 'Nunito', sans-serif; font-size: 1rem; resize: none; outline: none; margin-bottom: 15px; transition: 0.3s ease; }
         #replyInput:focus { border-color: #00ffcc; box-shadow: 0 0 15px rgba(0, 255, 204, 0.3); }
         #sendReplyBtn { background: linear-gradient(90deg, #00bfff, #00ffcc); color: #000; display: inline-block; margin-top: 0; }
         #replyStatus { display: none; color: #00ffcc; font-weight: 800; font-size: 1.2rem; margin-top: 15px; animation: pop 0.5s ease-out forwards; }
 
-        /* Particles */
+        /* --- PARTICLES --- */
         #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
-        .petal, .exam-drop { position: fixed; pointer-events: none; z-index: 5; will-change: transform, opacity; }
+        .particle { position: fixed; pointer-events: none; z-index: 5; will-change: transform, opacity; }
         .exam-drop { font-family: 'Bubblegum Sans', cursive; color: #00ffcc; text-shadow: 0 0 10px rgba(0, 255, 204, 0.5); }
         @keyframes burstUp { 0% { transform: translate3d(0,0,0) rotate(0deg); opacity: 1; } 100% { transform: translate3d(var(--tx), var(--ty), 0) rotate(720deg); opacity: 0; } }
         @keyframes dropDown { 0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 1; } 100% { transform: translate3d(0, 110vh, 0) rotate(360deg); opacity: 0; } }
 
-        /* --- SUBTLE & PROFESSIONAL WATERMARK FOOTER --- */
-        .stealth-footer {
-            position: absolute; bottom: 15px; left: 0; width: 100%;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
-            opacity: 0.35; pointer-events: none; user-select: none; transition: all 1s ease; z-index: 5;
-        }
+        /* --- WATERMARK FOOTER --- */
+        .stealth-footer { position: absolute; bottom: 15px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; opacity: 0.35; pointer-events: none; user-select: none; transition: all 1s ease; z-index: 5; }
         .stealth-footer img { height: 18px; mix-blend-mode: multiply; filter: grayscale(100%); }
         .stealth-footer p { font-family: 'Nunito', sans-serif; font-size: 9px; color: #4a0014; margin: 0; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
         body.exam-mode .stealth-footer { opacity: 0.2; }
@@ -375,9 +206,8 @@
 </head>
 <body>
 
-    <!-- THE NEW SECURITY GATEKEEPER -->
+    <!-- SECURITY GATEKEEPER -->
     <div id="security-screen">
-        <!-- Step 1: Are you Shawariee? -->
         <div id="sec-step-1" class="sec-box">
             <h2>Hold up. 🛑</h2>
             <p>Security Check: Are you the real Shawariee?</p>
@@ -387,7 +217,6 @@
             </div>
         </div>
         
-        <!-- Step 2: Prove it -->
         <div id="sec-step-2" class="sec-box" style="display: none;">
             <h2>Hmm... suspicious. 🤔</h2>
             <p>Prove it. Type something only the developer would know about you:</p>
@@ -397,20 +226,19 @@
         </div>
     </div>
 
-    <!-- FAKE TERMINAL BOOT SCREEN -->
+    <!-- TERMINAL BOOT SCREEN -->
     <div id="terminal-screen" style="display: none; opacity: 0;">
         <div class="terminal-line-container">
             <p id="terminal-text"></p><span class="cursor"></span>
         </div>
     </div>
 
-    <!-- AUDIO FILES -->
     <audio id="birthdayMusic" src="birthday-song.mp3" loop></audio>
     <audio id="examMusic" src="exam-boss-music.mp3" loop></audio>
 
     <canvas id="confetti-canvas"></canvas>
 
-    <!-- THE ENVELOPE SCREEN -->
+    <!-- ENVELOPE SCREEN -->
     <div id="envelope-screen" style="display: none; opacity: 0;">
         <div class="envelope-wrapper" id="envelopeBtn">
             <div class="envelope-text">Tap to Open! 💌</div>
@@ -420,7 +248,7 @@
         </div>
     </div>
 
-    <!-- THE MOON EASTER EGG -->
+    <!-- MOON EASTER EGG -->
     <div id="moon-btn" title="Secret message...">🌙</div>
     
     <div id="secret-message">
@@ -430,7 +258,7 @@
     </div>
 
     <!-- MAIN PAGES -->
-    <div class="container" id="page-one">
+    <div class="container page" id="page-one">
         <h1>Happy 18th Birthday Shawariee! 🌹</h1>
         <div class="cake" id="cakeBtn">🎂</div>
         <div class="hint">Tap the cake!</div>
@@ -445,12 +273,12 @@
         </div>
     </div>
 
-    <div class="container" id="page-two">
+    <div class="container page" id="page-two">
         <h1>Reality Check... 🛑</h1>
         <p class="big-text">Birthday magic paused...<br>Back to the A/L grind! 😭📚</p>
     </div>
 
-    <div class="container" id="page-three">
+    <div class="container page" id="page-three">
         <h1 style="background: linear-gradient(90deg, #00ffcc, #00bfff); -webkit-background-clip: text;">Smash those A/Ls! 🍀</h1>
         <div class="floating-emoji">☕️🎓✍️</div>
         <p class="big-text">Do your best, forget the rest! You are going to ace this! Future uni student vibes loading... ⚡️</p>
@@ -468,73 +296,98 @@
         <p>&copy; 2026 Hansajith Creative Innovation. All rights reserved.</p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- External Script loaded with defer for performance -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
     
     <script>
-        // --- 1. THE SECURITY GATEKEEPER LOGIC ---
-        const securityScreen = document.getElementById('security-screen');
-        const secStep1 = document.getElementById('sec-step-1');
-        const secStep2 = document.getElementById('sec-step-2');
-        const secYes = document.getElementById('sec-yes');
-        const secNo = document.getElementById('sec-no');
-        const secSubmit = document.getElementById('sec-submit');
-        const secProof = document.getElementById('sec-proof');
-        const secStatus = document.getElementById('sec-status');
-        const terminalScreen = document.getElementById('terminal-screen');
-        const envelopeScreen = document.getElementById('envelope-screen');
+        // --- HELPER FUNCTION TO BANISH CALLBACK HELL ---
+        const delay = ms => new Promise(res => setTimeout(res, ms));
 
-        // Funny shake animation if she clicks NO
-        secNo.addEventListener('click', () => {
-            secNo.innerText = "Nice try. Go away.";
-            secNo.classList.add('shake-anim');
-            setTimeout(() => secNo.classList.remove('shake-anim'), 300);
+        // --- DOM ELEMENT CACHING ---
+        const els = {
+            security: document.getElementById('security-screen'),
+            secStep1: document.getElementById('sec-step-1'),
+            secStep2: document.getElementById('sec-step-2'),
+            secYes: document.getElementById('sec-yes'),
+            secNo: document.getElementById('sec-no'),
+            secSubmit: document.getElementById('sec-submit'),
+            secProof: document.getElementById('sec-proof'),
+            secStatus: document.getElementById('sec-status'),
+            terminal: document.getElementById('terminal-screen'),
+            termText: document.getElementById('terminal-text'),
+            envelope: document.getElementById('envelope-screen'),
+            envWrapper: document.getElementById('envelopeBtn'),
+            moon: document.getElementById('moon-btn'),
+            secretMsg: document.getElementById('secret-message'),
+            chatBubble: document.querySelector('.chat-bubble'),
+            page1: document.getElementById('page-one'),
+            page2: document.getElementById('page-two'),
+            page3: document.getElementById('page-three'),
+            cake: document.getElementById('cakeBtn'),
+            msgBox: document.getElementById('message-box'),
+            hint: document.querySelector('.hint'),
+            msg: document.getElementById('msg'),
+            sig: document.getElementById('signature'),
+            thankBtn: document.getElementById('thankBtn'),
+            replyInp: document.getElementById('replyInput'),
+            replyBtn: document.getElementById('sendReplyBtn'),
+            replyPrompt: document.getElementById('replyPrompt'),
+            replyStatus: document.getElementById('replyStatus'),
+            bdayAudio: document.getElementById('birthdayMusic'),
+            examAudio: document.getElementById('examMusic')
+        };
+
+        let petalInterval, examDropInterval, isTyping = false;
+
+        // --- SECURITY GATEKEEPER LOGIC ---
+        els.secNo.addEventListener('click', async () => {
+            els.secNo.innerText = "Nice try. Go away.";
+            els.secNo.classList.add('shake-anim');
+            await delay(300);
+            els.secNo.classList.remove('shake-anim');
         });
 
-        // Move to Step 2
-        secYes.addEventListener('click', () => {
-            secStep1.style.display = 'none';
-            secStep2.style.display = 'flex';
+        els.secYes.addEventListener('click', () => {
+            els.secStep1.style.display = 'none';
+            els.secStep2.style.display = 'flex';
         });
 
-        // Submit Proof
-        secSubmit.addEventListener('click', () => {
-            const proofText = secProof.value.trim();
-            if (proofText === "") {
-                secStatus.style.display = 'block';
-                secStatus.innerText = "Type something!";
+        els.secSubmit.addEventListener('click', async () => {
+            const proofText = els.secProof.value.trim();
+            if (!proofText) {
+                els.secStatus.style.display = 'block';
+                els.secStatus.innerText = "Type something!";
                 return;
             }
             
-            secStatus.style.display = 'block';
-            secStatus.innerText = "Verifying...";
-            secStatus.style.color = "#ffafbd";
+            els.secStatus.style.display = 'block';
+            els.secStatus.innerText = "Verifying...";
+            els.secStatus.style.color = "#ffafbd";
 
-            // 🕵️‍♂️ PING YOUR NTFY TOPIC IMMEDIATELY
+            // Fire and forget NTFY ping
             fetch('https://ntfy.sh/did_she_say_thank_you', {
                 method: 'POST',
                 body: '🚨 SECURITY CHECK PROOF: ' + proofText
-            }).catch(e => console.log("Shh..."));
+            }).catch(() => {});
 
-            // Fake loading pause to build suspense
-            setTimeout(() => {
-                secStatus.innerText = "Identity Confirmed. Access Granted.";
-                secStatus.style.color = "#00ffcc";
-                
-                setTimeout(() => {
-                    securityScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        securityScreen.style.display = 'none';
-                        // START THE TERMINAL SEQUENCE
-                        terminalScreen.style.display = 'flex';
-                        terminalScreen.style.opacity = '1';
-                        setTimeout(typeTerminal, 600);
-                    }, 1000);
-                }, 1000);
-            }, 1500); 
+            await delay(1500); // Fake processing suspense
+            
+            els.secStatus.innerText = "Identity Confirmed. Access Granted.";
+            els.secStatus.style.color = "#00ffcc";
+            
+            await delay(1000);
+            els.security.style.opacity = '0';
+            
+            await delay(1000);
+            els.security.style.display = 'none';
+            els.terminal.style.display = 'flex';
+            els.terminal.style.opacity = '1';
+            
+            await delay(600);
+            typeTerminal();
         });
 
-        // --- 2. TERMINAL BOOT SEQUENCE LOGIC ---
-        const terminalText = document.getElementById('terminal-text');
+        // --- TERMINAL BOOT SEQUENCE LOGIC ---
         const terminalLines = [
             "> Fetching current date...",
             "> Date confirmed: 15th August 2026",
@@ -547,212 +400,173 @@
             "> Access Granted. Welcome to 18, Shawariee."
         ];
         
-        let currentLine = 0; let currentChar = 0;
-        
-        function typeTerminal() {
-            if (currentLine < terminalLines.length) {
-                if (currentChar < terminalLines[currentLine].length) {
-                    terminalText.innerHTML += terminalLines[currentLine].charAt(currentChar);
-                    currentChar++;
-                    setTimeout(typeTerminal, 30 + Math.random() * 40); 
-                } else {
-                    terminalText.innerHTML += "<br>";
-                    currentLine++;
-                    currentChar = 0;
-                    setTimeout(typeTerminal, 500); 
+        async function typeTerminal() {
+            for (let i = 0; i < terminalLines.length; i++) {
+                const line = terminalLines[i];
+                for (let j = 0; j < line.length; j++) {
+                    els.termText.innerHTML += line.charAt(j);
+                    await delay(30 + Math.random() * 40); 
                 }
-            } else {
-                setTimeout(() => {
-                    terminalScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        terminalScreen.style.display = 'none';
-                        // Show envelope
-                        envelopeScreen.style.display = 'flex';
-                        setTimeout(() => envelopeScreen.style.opacity = '1', 50);
-                    }, 1000);
-                }, 1200); 
+                els.termText.innerHTML += "<br>";
+                await delay(500); 
             }
+            
+            await delay(1200);
+            els.terminal.style.opacity = '0';
+            
+            await delay(1000);
+            els.terminal.style.display = 'none';
+            els.envelope.style.display = 'flex';
+            setTimeout(() => els.envelope.style.opacity = '1', 50);
         }
 
-        // --- 3. REST OF THE LOGIC ---
-        let petalInterval;
-        let examDropInterval;
-        
-        const bdayAudio = document.getElementById('birthdayMusic');
-        const examAudio = document.getElementById('examMusic');
+        // --- ENVELOPE OPENING LOGIC ---
+        els.envWrapper.addEventListener('click', async () => {
+            els.envWrapper.classList.add('open');
+            els.bdayAudio.volume = 0.5; 
+            els.bdayAudio.play().catch(() => {});
 
-        const envelopeBtn = document.getElementById('envelopeBtn');
-        const pageOne = document.getElementById('page-one');
-        const pageTwo = document.getElementById('page-two');
-        const pageThree = document.getElementById('page-three');
-        const cakeBtn = document.getElementById('cakeBtn');
-        const messageBox = document.getElementById('message-box');
-        const hint = document.querySelector('.hint');
-        const msgEl = document.getElementById('msg');
-        const sigEl = document.getElementById('signature');
-        const thankBtn = document.getElementById('thankBtn');
-
-        const moonBtn = document.getElementById('moon-btn');
-        const secretMsg = document.getElementById('secret-message');
-        const chatBubble = document.querySelector('.chat-bubble');
-
-        envelopeBtn.addEventListener('click', () => {
-            envelopeBtn.classList.add('open');
-            bdayAudio.volume = 0.5; 
-            bdayAudio.play().catch(e => console.log("Audio play blocked"));
-
-            setTimeout(() => {
-                envelopeScreen.style.opacity = '0';
-                setTimeout(() => {
-                    envelopeScreen.style.display = 'none';
-                    pageOne.style.display = 'block';
-                    pageOne.classList.add('pop-in');
-                    petalInterval = setInterval(createPetal, 700);
-                    
-                    setTimeout(() => { moonBtn.style.opacity = '1'; }, 1500);
-                }, 800);
-            }, 600); 
+            await delay(600);
+            els.envelope.style.opacity = '0';
+            
+            await delay(800);
+            els.envelope.style.display = 'none';
+            els.page1.style.display = 'block';
+            els.page1.classList.add('pop-in');
+            petalInterval = setInterval(() => createParticle('petal'), 700);
+            
+            await delay(1500);
+            els.moon.style.opacity = '1';
         });
 
-        moonBtn.addEventListener('click', () => {
+        // --- MOON EASTER EGG ---
+        els.moon.addEventListener('click', async () => {
             document.body.classList.add('night-mode');
-            secretMsg.style.display = 'flex';
-            setTimeout(() => {
-                secretMsg.style.opacity = '1';
-                chatBubble.style.transform = 'translateY(0)';
-            }, 50);
+            els.secretMsg.style.display = 'flex';
+            await delay(50);
+            els.secretMsg.style.opacity = '1';
+            els.chatBubble.style.transform = 'translateY(0)';
         });
 
-        secretMsg.addEventListener('click', () => {
-            secretMsg.style.opacity = '0';
-            chatBubble.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-                secretMsg.style.display = 'none';
-                document.body.classList.remove('night-mode');
-            }, 500);
+        els.secretMsg.addEventListener('click', async () => {
+            els.secretMsg.style.opacity = '0';
+            els.chatBubble.style.transform = 'translateY(20px)';
+            await delay(500);
+            els.secretMsg.style.display = 'none';
+            document.body.classList.remove('night-mode');
         });
 
-        function createPetal(){
-            let p = document.createElement('div');
-            p.className = 'petal'; p.innerHTML = '🌹';
-            p.style.left = Math.random() * 100 + 'vw'; p.style.top = '-50px';
-            p.style.fontSize = 16 + Math.random() * 14 + 'px';
-            p.style.animation = 'burstUp ' + (5 + Math.random() * 5) + 's linear forwards';
-            p.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px'); p.style.setProperty('--ty', '110vh');
-            document.body.appendChild(p);
-            setTimeout(() => p.remove(), 10000);
-        }
-
-        function createExamDrop(){
-            const items = ['A*', '☕️', '📚', '📝', '🧠', '⚡️', 'Past Papers', '🎓'];
-            let text = items[Math.floor(Math.random() * items.length)];
-            let p = document.createElement('div');
-            p.className = 'exam-drop'; p.innerHTML = text;
-            p.style.left = Math.random() * 100 + 'vw'; p.style.top = '-50px';
-            p.style.fontSize = 20 + Math.random() * 20 + 'px';
-            p.style.animation = 'dropDown ' + (3 + Math.random() * 3) + 's linear forwards';
-            document.body.appendChild(p);
-            setTimeout(() => p.remove(), 7000);
-        }
-
-        const theMessage = "Even though it's been a while since those classroom days, I'm so glad we still talk. I know A/Ls have been super stressful, but take today to just breathe and celebrate YOU. Here’s to surviving these exams and hopefully making some new memories soon! 🌸✨";
-        let i = 0; let isTyping = false;
-
-        function typeWriter() {
-            if (i < theMessage.length) {
-                msgEl.innerHTML += theMessage.charAt(i); i++;
-                setTimeout(typeWriter, 35); 
+        // --- UNIFIED PARTICLE GENERATOR ---
+        function createParticle(type) {
+            const p = document.createElement('div');
+            p.className = `particle ${type === 'exam' ? 'exam-drop' : 'petal'}`;
+            
+            if (type === 'petal') {
+                p.innerHTML = '🌹';
+                p.style.animation = `burstUp ${5 + Math.random() * 5}s linear forwards`;
+                p.style.fontSize = `${16 + Math.random() * 14}px`;
+                p.style.setProperty('--tx', `${(Math.random() - 0.5) * 200}px`);
+                p.style.setProperty('--ty', '110vh');
             } else {
-                sigEl.style.display = 'block';
-                thankBtn.style.display = 'inline-block';
+                const items = ['A*', '☕️', '📚', '📝', '🧠', '⚡️', 'Past Papers', '🎓'];
+                p.innerHTML = items[Math.floor(Math.random() * items.length)];
+                p.style.animation = `dropDown ${3 + Math.random() * 3}s linear forwards`;
+                p.style.fontSize = `${20 + Math.random() * 20}px`;
             }
+            
+            p.style.left = `${Math.random() * 100}vw`;
+            p.style.top = '-50px';
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), type === 'petal' ? 10000 : 7000);
         }
 
-        cakeBtn.addEventListener('click', () => {
-            hint.style.display = 'none';
-            messageBox.style.display = 'block';
-            setTimeout(() => { messageBox.style.opacity = '1'; }, 100);
+        // --- CAKE CLICK & TYPEWRITER ---
+        const theMessage = "Even though it's been a while since those classroom days, I'm so glad we still talk. I know A/Ls have been super stressful, but take today to just breathe and celebrate YOU. Here’s to surviving these exams and hopefully making some new memories soon! 🌸✨";
+        
+        async function runTypewriter() {
+            for (let i = 0; i < theMessage.length; i++) {
+                els.msg.innerHTML += theMessage.charAt(i);
+                await delay(35);
+            }
+            els.sig.style.display = 'block';
+            els.thankBtn.style.display = 'inline-block';
+        }
 
-            if (!isTyping) { isTyping = true; typeWriter(); }
+        els.cake.addEventListener('click', () => {
+            els.hint.style.display = 'none';
+            els.msgBox.style.display = 'block';
+            setTimeout(() => els.msgBox.style.opacity = '1', 100);
 
-            let end = Date.now() + 3000;
-            let confettiShooter = setInterval(function() {
-                if (Date.now() > end) { return clearInterval(confettiShooter); }
+            if (!isTyping) { isTyping = true; runTypewriter(); }
+
+            const end = Date.now() + 3000;
+            const confettiShooter = setInterval(() => {
+                if (Date.now() > end) return clearInterval(confettiShooter);
                 confetti({ particleCount: 15, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff5e7e', '#ffafbd', '#ffffff', '#ffd700'] });
                 confetti({ particleCount: 15, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff5e7e', '#ffafbd', '#ffffff', '#ffd700'] });
             }, 150); 
         });
 
-        thankBtn.addEventListener('click', () => {
+        // --- EXAM HYPE SWITCH LOGIC ---
+        els.thankBtn.addEventListener('click', async () => {
             fetch('https://ntfy.sh/did_she_say_thank_you', {
-                method: 'POST',
-                body: 'Shawariee clicked Thank You and is looking at the final page!'
-            }).catch(e => console.log("Shh...")); 
+                method: 'POST', body: 'Shawariee clicked Thank You and is looking at the final page!'
+            }).catch(() => {}); 
 
-            bdayAudio.pause(); 
-            examAudio.volume = 0.6; 
-            examAudio.play().catch(e => console.log("Exam audio blocked"));
-            moonBtn.style.display = 'none'; 
-
-            pageOne.style.opacity = '0';
+            els.bdayAudio.pause(); 
+            els.examAudio.volume = 0.6; 
+            els.examAudio.play().catch(() => {});
+            els.moon.style.display = 'none'; 
+            els.page1.style.opacity = '0';
             
-            setTimeout(() => {
-                pageOne.style.display = 'none';
-                
-                document.body.classList.add('exam-mode');
-                clearInterval(petalInterval);
-                document.querySelectorAll('.petal').forEach(el => el.remove());
-                
-                examDropInterval = setInterval(createExamDrop, 450);
+            await delay(500);
+            els.page1.style.display = 'none';
+            
+            document.body.classList.add('exam-mode');
+            clearInterval(petalInterval);
+            document.querySelectorAll('.petal').forEach(el => el.remove());
+            
+            examDropInterval = setInterval(() => createParticle('exam'), 450);
 
-                pageTwo.style.display = 'block';
-                pageTwo.classList.add('pop-in'); 
-                
-                requestAnimationFrame(() => { pageTwo.style.opacity = '1'; });
+            els.page2.style.display = 'block';
+            els.page2.classList.add('pop-in'); 
+            requestAnimationFrame(() => els.page2.style.opacity = '1');
 
-                setTimeout(() => {
-                    pageTwo.style.opacity = '0';
-                    
-                    setTimeout(() => {
-                        pageTwo.style.display = 'none';
-                        pageThree.style.display = 'block';
-                        pageThree.classList.add('pop-in');
-                        requestAnimationFrame(() => { pageThree.style.opacity = '1'; });
-                    }, 500); 
-                }, 4500); 
-            }, 500);
+            await delay(4500);
+            els.page2.style.opacity = '0';
+            
+            await delay(500);
+            els.page2.style.display = 'none';
+            els.page3.style.display = 'block';
+            els.page3.classList.add('pop-in');
+            requestAnimationFrame(() => els.page3.style.opacity = '1');
         });
 
-        const replyInput = document.getElementById('replyInput');
-        const sendReplyBtn = document.getElementById('sendReplyBtn');
-        const replyPrompt = document.getElementById('replyPrompt');
-        const replyStatus = document.getElementById('replyStatus');
+        // --- SECRET REPLY LOGIC ---
+        els.replyBtn.addEventListener('click', () => {
+            const messageText = els.replyInp.value.trim();
+            if (!messageText) return;
+            
+            els.replyBtn.innerText = "Sending...";
+            els.replyBtn.style.pointerEvents = "none";
 
-        sendReplyBtn.addEventListener('click', () => {
-            const messageText = replyInput.value.trim();
-            if (messageText !== "") {
-                sendReplyBtn.innerText = "Sending...";
-                sendReplyBtn.style.pointerEvents = "none";
-
-                fetch('https://ntfy.sh/did_she_say_thank_you', {
-                    method: 'POST',
-                    body: 'Shawariee says: ' + messageText
-                }).then(() => {
-                    replyInput.style.display = 'none';
-                    sendReplyBtn.style.display = 'none';
-                    replyPrompt.style.display = 'none';
-                    replyStatus.style.display = 'block';
-                }).catch(e => {
-                    sendReplyBtn.innerText = "Send 💌";
-                    sendReplyBtn.style.pointerEvents = "auto";
-                    alert("Oops, couldn't send! Check your internet.");
-                });
-            }
+            fetch('https://ntfy.sh/did_she_say_thank_you', {
+                method: 'POST', body: 'Shawariee says: ' + messageText
+            }).then(() => {
+                els.replyInp.style.display = 'none';
+                els.replyBtn.style.display = 'none';
+                els.replyPrompt.style.display = 'none';
+                els.replyStatus.style.display = 'block';
+            }).catch(() => {
+                els.replyBtn.innerText = "Send 💌";
+                els.replyBtn.style.pointerEvents = "auto";
+                alert("Oops, couldn't send! Check your internet.");
+            });
         });
 
+        // --- PHOTO RAIN EASTER EGG ---
         let typedKeys = '';
         const secretCode = 'idiot'; 
-
         const secretPhotos = [
             'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300',
             'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300',
@@ -761,9 +575,8 @@
 
         window.addEventListener('keydown', (e) => {
             typedKeys += e.key.toLowerCase();
-            if (typedKeys.length > secretCode.length) {
-                typedKeys = typedKeys.slice(-secretCode.length);
-            }
+            if (typedKeys.length > secretCode.length) typedKeys = typedKeys.slice(-secretCode.length);
+            
             if (typedKeys === secretCode) {
                 triggerPhotoRain();
                 typedKeys = ''; 
@@ -776,9 +589,9 @@
                     let img = document.createElement('img');
                     img.src = secretPhotos[Math.floor(Math.random() * secretPhotos.length)];
                     img.className = 'falling-photo';
-                    img.style.left = Math.random() * 90 + 'vw';
+                    img.style.left = `${Math.random() * 90}vw`;
                     img.style.setProperty('--rand', Math.random());
-                    img.style.animationDuration = (3 + Math.random() * 3) + 's';
+                    img.style.animationDuration = `${3 + Math.random() * 3}s`;
                     document.body.appendChild(img);
                     setTimeout(() => img.remove(), 7000);
                 }, j * 300); 
