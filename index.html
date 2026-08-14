@@ -25,7 +25,13 @@
             padding: 20px;
             padding-bottom: 60px;
             position: relative;
-            transition: background 1s ease; 
+            transition: background 1.5s ease; 
+        }
+
+        /* --- THE LATE NIGHT MODE --- */
+        body.night-mode {
+            background: linear-gradient(-45deg, #0b0c10, #1f2833, #1a1a2e, #000000);
+            background-size: 400% 400%;
         }
 
         body.exam-mode {
@@ -36,6 +42,43 @@
 
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes examGradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* --- FAKE TERMINAL BOOT SEQUENCE --- */
+        #terminal-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #050505;
+            z-index: 5000; 
+            display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+            padding: 30px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #00ffcc;
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            text-align: left;
+            transition: opacity 1s ease;
+        }
+
+        .terminal-line-container {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+        }
+
+        #terminal-text {
+            white-space: pre-wrap;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px; height: 1.2em;
+            background: #00ffcc;
+            animation: blink 1s step-end infinite;
+            margin-left: 2px;
+            vertical-align: bottom;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
 
         /* --- THE ENVELOPE STYLES --- */
         #envelope-screen {
@@ -101,6 +144,67 @@
             position: absolute; top: -50px; width: 100%; text-align: center;
             color: #c9184a; font-family: 'Bubblegum Sans', cursive; font-size: 28px;
             animation: float 2s infinite ease-in-out;
+        }
+
+        /* --- THE EASTER EGG ELEMENTS --- */
+        #moon-btn {
+            position: absolute;
+            top: 20px; right: 25px;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 100;
+            opacity: 0; 
+            transition: transform 0.3s, opacity 1s ease;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        #moon-btn:hover { transform: scale(1.1) rotate(15deg); }
+
+        #secret-message {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            z-index: 3000;
+            display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.5s;
+            cursor: pointer;
+        }
+
+        .chat-bubble {
+            background: linear-gradient(135deg, #1f2833, #2b3a4a);
+            color: #e0e0e0;
+            padding: 25px 30px;
+            border-radius: 20px 20px 0 20px;
+            font-size: 1.15rem;
+            max-width: 85%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.1);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            line-height: 1.5;
+            transform: translateY(20px);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .chat-bubble span { color: #ffafbd; }
+
+        /* --- SECRET PHOTO RAIN STYLES --- */
+        .falling-photo {
+            position: fixed;
+            top: -200px;
+            width: 120px;
+            height: auto;
+            background: white;
+            padding: 5px 5px 15px 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-radius: 2px;
+            z-index: 9999;
+            pointer-events: none;
+            transform: rotate(calc(-20deg + 40deg * var(--rand))); 
+            animation: rainDown linear forwards;
+            will-change: transform;
+        }
+
+        @keyframes rainDown {
+            to { transform: translateY(120vh) rotate(calc(-40deg + 80deg * var(--rand))); }
         }
 
         /* --- THE CARD CONTAINERS --- */
@@ -186,7 +290,7 @@
             flex-direction: column;
             align-items: center;
             opacity: 0;
-            animation: pop 1s ease-out 1s forwards; /* Delays appearance slightly */
+            animation: pop 1s ease-out 1s forwards; 
         }
         .reply-prompt {
             color: #00ffcc;
@@ -279,11 +383,20 @@
 </head>
 <body>
 
+    <!-- FAKE TERMINAL BOOT SCREEN -->
+    <div id="terminal-screen">
+        <div class="terminal-line-container">
+            <p id="terminal-text"></p><span class="cursor"></span>
+        </div>
+    </div>
+
+    <!-- AUDIO FILES -->
     <audio id="birthdayMusic" src="birthday-song.mp3" loop></audio>
     <audio id="examMusic" src="exam-boss-music.mp3" loop></audio>
 
     <canvas id="confetti-canvas"></canvas>
 
+    <!-- THE ENVELOPE SCREEN -->
     <div id="envelope-screen">
         <div class="envelope-wrapper" id="envelopeBtn">
             <div class="envelope-text">Tap to Open! 💌</div>
@@ -293,8 +406,18 @@
         </div>
     </div>
 
+    <!-- THE MOON EASTER EGG -->
+    <div id="moon-btn" title="Secret message...">🌙</div>
+    
+    <div id="secret-message">
+        <div class="chat-bubble">
+            Just a reminder that talking to you is my favorite part of every day. <span>Good luck with the A/Ls</span>—I'll be right here cheering you on every night. ✨
+        </div>
+    </div>
+
+    <!-- MAIN PAGES -->
     <div class="container" id="page-one">
-        <h1>Happy Birthday Shawariee! 🌹</h1>
+        <h1>Happy 18th Birthday Shawariee! 🌹</h1>
         <div class="cake" id="cakeBtn">🎂</div>
         <div class="hint">Tap the cake!</div>
 
@@ -318,7 +441,6 @@
         <div class="floating-emoji">☕️🎓✍️</div>
         <p class="big-text">Do your best, forget the rest! You are going to ace this! Future uni student vibes loading... ⚡️</p>
         
-        <!-- NEW: SECRET REPLY SECTION -->
         <div class="reply-section">
             <p class="reply-prompt" id="replyPrompt">Send a secret reply...</p>
             <textarea id="replyInput" rows="3" placeholder="Type something here..."></textarea>
@@ -335,6 +457,52 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <script>
+        // --- TERMINAL BOOT SEQUENCE LOGIC ---
+        const terminalScreen = document.getElementById('terminal-screen');
+        const terminalText = document.getElementById('terminal-text');
+        
+        const terminalLines = [
+            "> Fetching current date...",
+            "> Date confirmed: 15th August 2026",
+            "> Loading idiot module...",
+            "> Loading bolee module...",
+            "> Age parameter: 17",
+            "> Executing upgrade to 18...",
+            "> 17... ⏳",
+            "> 18! ✅",
+            "> Access Granted. Welcome to 18, Shawariee."
+        ];
+        
+        let currentLine = 0;
+        let currentChar = 0;
+        
+        function typeTerminal() {
+            if (currentLine < terminalLines.length) {
+                if (currentChar < terminalLines[currentLine].length) {
+                    terminalText.innerHTML += terminalLines[currentLine].charAt(currentChar);
+                    currentChar++;
+                    setTimeout(typeTerminal, 30 + Math.random() * 40); 
+                } else {
+                    terminalText.innerHTML += "<br>";
+                    currentLine++;
+                    currentChar = 0;
+                    setTimeout(typeTerminal, 500); 
+                }
+            } else {
+                setTimeout(() => {
+                    terminalScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        terminalScreen.style.display = 'none';
+                    }, 1000);
+                }, 1200); 
+            }
+        }
+        
+        window.onload = () => {
+            setTimeout(typeTerminal, 600);
+        };
+
+        // --- REST OF THE LOGIC ---
         let petalInterval;
         let examDropInterval;
         
@@ -353,6 +521,10 @@
         const sigEl = document.getElementById('signature');
         const thankBtn = document.getElementById('thankBtn');
 
+        const moonBtn = document.getElementById('moon-btn');
+        const secretMsg = document.getElementById('secret-message');
+        const chatBubble = document.querySelector('.chat-bubble');
+
         envelopeBtn.addEventListener('click', () => {
             envelopeBtn.classList.add('open');
             bdayAudio.volume = 0.5; 
@@ -365,8 +537,32 @@
                     pageOne.style.display = 'block';
                     pageOne.classList.add('pop-in');
                     petalInterval = setInterval(createPetal, 700);
+                    
+                    setTimeout(() => {
+                        moonBtn.style.opacity = '1';
+                    }, 1500);
                 }, 800);
             }, 600); 
+        });
+
+        moonBtn.addEventListener('click', () => {
+            document.body.classList.add('night-mode');
+            secretMsg.style.display = 'flex';
+            
+            setTimeout(() => {
+                secretMsg.style.opacity = '1';
+                chatBubble.style.transform = 'translateY(0)';
+            }, 50);
+        });
+
+        secretMsg.addEventListener('click', () => {
+            secretMsg.style.opacity = '0';
+            chatBubble.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                secretMsg.style.display = 'none';
+                document.body.classList.remove('night-mode');
+            }, 500);
         });
 
         function createPetal(){
@@ -392,7 +588,7 @@
             setTimeout(() => p.remove(), 7000);
         }
 
-        const theMessage = "Happy Birthday Shawariee! Even though it's been a while since those classroom days, I'm so glad we still talk. I know A/Ls have been super stressful, but take today to just breathe and celebrate YOU. Here’s to surviving these exams and hopefully making some new memories soon! 🌸✨";
+        const theMessage = "Even though it's been a while since those classroom days, I'm so glad we still talk. I know A/Ls have been super stressful, but take today to just breathe and celebrate YOU. Here’s to surviving these exams and hopefully making some new memories soon! 🌸✨";
         let i = 0; let isTyping = false;
 
         function typeWriter() {
@@ -421,7 +617,6 @@
         });
 
         thankBtn.addEventListener('click', () => {
-            // First ping just to tell you she reached the end!
             fetch('https://ntfy.sh/did_she_say_thank_you', {
                 method: 'POST',
                 body: 'Shawariee clicked Thank You and is looking at the final page!'
@@ -430,6 +625,7 @@
             bdayAudio.pause(); 
             examAudio.volume = 0.6; 
             examAudio.play().catch(e => console.log("Exam audio blocked"));
+            moonBtn.style.display = 'none'; 
 
             pageOne.style.opacity = '0';
             
@@ -462,7 +658,6 @@
             }, 500);
         });
 
-        // --- NEW: SEND REPLY LOGIC ---
         const replyInput = document.getElementById('replyInput');
         const sendReplyBtn = document.getElementById('sendReplyBtn');
         const replyPrompt = document.getElementById('replyPrompt');
@@ -472,16 +667,13 @@
             const messageText = replyInput.value.trim();
             
             if (messageText !== "") {
-                // Change button state so she knows it's working
                 sendReplyBtn.innerText = "Sending...";
                 sendReplyBtn.style.pointerEvents = "none";
 
-                // PING NTFY WITH HER MESSAGE!
                 fetch('https://ntfy.sh/did_she_say_thank_you', {
                     method: 'POST',
                     body: 'Shawariee says: ' + messageText
                 }).then(() => {
-                    // Hide the box and show success text
                     replyInput.style.display = 'none';
                     sendReplyBtn.style.display = 'none';
                     replyPrompt.style.display = 'none';
@@ -493,6 +685,45 @@
                 });
             }
         });
+
+        let typedKeys = '';
+        const secretCode = 'idiot'; 
+
+        const secretPhotos = [
+            'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300',
+            'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300',
+            'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300'
+        ];
+
+        window.addEventListener('keydown', (e) => {
+            typedKeys += e.key.toLowerCase();
+            
+            if (typedKeys.length > secretCode.length) {
+                typedKeys = typedKeys.slice(-secretCode.length);
+            }
+            
+            if (typedKeys === secretCode) {
+                triggerPhotoRain();
+                typedKeys = ''; 
+            }
+        });
+
+        function triggerPhotoRain() {
+            for (let j = 0; j < 20; j++) {
+                setTimeout(() => {
+                    let img = document.createElement('img');
+                    img.src = secretPhotos[Math.floor(Math.random() * secretPhotos.length)];
+                    img.className = 'falling-photo';
+                    img.style.left = Math.random() * 90 + 'vw';
+                    img.style.setProperty('--rand', Math.random());
+                    img.style.animationDuration = (3 + Math.random() * 3) + 's';
+                    
+                    document.body.appendChild(img);
+                    
+                    setTimeout(() => img.remove(), 7000);
+                }, j * 300); 
+            }
+        }
     </script>
 </body>
 </html>
